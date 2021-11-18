@@ -10,7 +10,7 @@ module.exports = app => {
   router.get("/", sports.findAll);
 
   // Retrieve all published Sports
-  router.get("/published", sports.findAllPublished);
+  router.get("/OpenForRegistration", sports.findAllOpenForRegistration);
 
   // Retrieve a single Sport with id
   router.get("/:id", sports.findOne);

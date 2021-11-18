@@ -115,8 +115,8 @@ exports.delete = (req, res) => {
 
 
 // Find all published Sports
-exports.findAllPublished = (req, res) => {
-  Sport.find({ published: true })
+exports.findAllOpenForRegistration = (req, res) => {
+  Sport.find({ openForRegistration: true })
     .then(data => {
       res.send(data);
     })
