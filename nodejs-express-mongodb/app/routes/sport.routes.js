@@ -21,8 +21,5 @@ module.exports = app => {
   // Delete a Sport with id
   router.delete("/:id", sports.delete);
 
-  // Create a new Sport
-  router.delete("/", sports.deleteAll);
-
   app.use("/api/sports", router);
 };

@@ -113,21 +113,6 @@ exports.delete = (req, res) => {
     });
 };
 
-// Delete all Sports from the database.
-exports.deleteAll = (req, res) => {
-  Sport.deleteMany({})
-    .then(data => {
-      res.send({
-        message: `${data.deletedCount} Sports were deleted successfully!`
-      });
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all sports."
-      });
-    });
-};
 
 // Find all published Sports
 exports.findAllPublished = (req, res) => {
