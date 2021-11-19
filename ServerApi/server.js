@@ -5,7 +5,7 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-  origin: "https://apicswf.herokuapp.com/"
+  origin: ["https://cswf.herokuapp.com/", "https://apicswf.herokuapp.com"]
 };
 
 app.use(cors(corsOptions));
