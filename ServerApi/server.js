@@ -4,11 +4,11 @@ const cors = require("cors");
 
 const app = express();
 
-// var corsOptions = {
-//   origin: "https://apicswf.herokuapp.com/"
-// };
+var corsOptions = {
+  origin: "https://apicswf.herokuapp.com/"
+};
 
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
 // parse requests of content-type - application/json
 app.use(express.json());  /* bodyParser.json() is deprecated */
