@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-vuejs:
     runs-on: ubuntu-latest
 
     strategy:
@@ -28,3 +28,28 @@ jobs:
         yarn
         yarn test:e2e
         yarn test:unit
+        
+  build-API:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+    
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+        
+    - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
+          heroku_email: "YOUR EMAIL"
+
+    - name: Build
+      run: |
+          
