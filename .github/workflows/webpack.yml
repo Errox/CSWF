@@ -53,6 +53,7 @@ jobs:
         
     - name: Build
       run: |
+            cd ServerApi
       
     - name: Deploy to Heroku
       uses: AkhileshNS/heroku-deploy@v3.12.12
