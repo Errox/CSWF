@@ -25,6 +25,8 @@ jobs:
     - name: Build
       run: |
         cd SportCommunity
+        yarn
+        yarn test:unit
         
         
     - name: Deploy to Heroku
