@@ -1,3 +1,3 @@
 module.exports = {
-  url: "mongodb://localhost:27017/cswf_db"
+  url: "mongodb+srv://sportcommunity:s5IhAjHWzfytWTeL@sportcommunity.hpiix.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 };

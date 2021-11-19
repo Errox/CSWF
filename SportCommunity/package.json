@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
+    "express": "^4.17.1",
     "vue": "^2.6.14",
     "vue-router": "^3.5.3",
     "vuetify": "^2.4.0"
