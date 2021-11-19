@@ -26,8 +26,15 @@ jobs:
       run: |
         cd SportCommunity
         yarn
-        yarn test:e2e
         yarn test:unit
+        
+        
+    - name: Deploy to Heroku
+      uses: AkhileshNS/heroku-deploy@v3.12.12
+      with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "cswf" #Must be unique in Heroku
+          heroku_email: "ryangroenewold@hotmail.com"
         
   build-API:
     runs-on: ubuntu-latest
@@ -44,12 +51,14 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         
-    - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
-          heroku_email: "YOUR EMAIL"
-
     - name: Build
       run: |
+      
+    - name: Deploy to Heroku
+      uses: AkhileshNS/heroku-deploy@v3.12.12
+      with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "apicswf" 
+          heroku_email: "ryangroenewold@hotmail.com"
+
           
