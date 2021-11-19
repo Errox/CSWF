@@ -25,7 +25,7 @@
                         <p> Er worden specefieke attributen opgeslagen door de entiteiten om de website zo functioneel mogelijk te maken. Zo is er dus ook een Wikilink die je mee kan sturen met een sport om een specefiekere uitleg te krijgen over de sport zelf. Deze link kan vervolgens gebruikt worden om meer te leren over de sport. Ook is het mogelijk om als club jezelf aan te melden en je club url mee te sturen voor eventueel reclame of inzicht te geven in wat de club buiten sport nogmeer voor je kan betekenen.</p>
                     </div>
                     <div class="col-lg-6">
-                        <img class="img-thumbnail" src="/images/ClassDiagramV1.1.png"> 
+                        <img class="img-thumbnail" src="/images/ClassDiagramV1-1.png"> 
                     </div>
                 </div>
             </div>
@@ -38,6 +38,7 @@
                 <p class="lead">Momenteel is het mogelijk om je eigen sport toe te voegen op de website. Deze kan je terug vinden in de lijst met alles sporten. Alle nieuwe sporten worden vanuit gegaan dat deze gelijk toegankelijk zijn tot alle gebruikers en wordt de sport opgeslagen dat deze open is tot registreren. Alle sporten worden uitgebreid laten zien in deze lijst. Het is de bedoeling als de entieit Club ingebouwd is om in de detail pagina ook de club te laten zien. </p>
                 <p> Ook wordt er gebruik gemaakt van Bootstrap om de website er netjes uit te laten zien. Bootstrap wordt ook gebruikt om de website repsonsive te maken voor mobile devices.</p>
                 <p> De github repo is terug te vinden op deze <a href="https://github.com/Errox/CSWF">Link.</a> Hierbij wordt er ook gebruik gemaakt van CI/CD om de applicatie te testen en automatisch te deployen naar heroku op de <a href="https://cswf.herokuapp.com/"> link</a> </p>
+                <p> De website maakt ook gebruik van VueJS. Deze communiceert met een NodeJs Express API. De API maakt vervoglens verbinding met een MongoDB </p>
             </div>
         </div>
     </div>
