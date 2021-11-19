@@ -1,28 +1,26 @@
 <template>
-  <div id="app">
-    <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <router-link to="/" class="navbar-brand">SportCommunity</router-link>
-      <div class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <router-link to="/tutorials" class="nav-link">Sports</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/add" class="nav-link">Add new sport</router-link>
-        </li>
-      </div>
-    </nav>
+  <v-app>
+    <v-app-bar app dark>
+      <button type="button" @click="click('About')"> SportCommunity </button>
+      <button type="button" @click="click('sports')"> Alle sporten </button>
+      <button type="button" @click="click('AboutUrl')"> About </button>
+    </v-app-bar>
 
-    <div class="container mt-3">
+    <v-main>
       <router-view />
-    </div>
-  </div>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
+
 export default {
   name: 'App',
-}
+  methods: {
+    click(url){
+      this.$router.push({ name: url });
+    }
+  },
+    
+};
 </script>
-
-<style>
-</style>

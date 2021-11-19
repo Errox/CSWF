@@ -21,10 +21,6 @@ class SportDataService {
     return http.delete(`/sports/${id}`);
   }
 
-  deleteAll() {
-    return http.delete(`/sports`);
-  }
-
   findByTitle(title) {
     return http.get(`/sports?title=${title}`);
   }
