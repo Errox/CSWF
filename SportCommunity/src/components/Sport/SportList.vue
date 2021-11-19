@@ -46,6 +46,7 @@ export default {
         { text: "Titel", align: "start", sortable: false, value: "title" },
         { text: "Beschrijving", value: "description", sortable: false },
         { text: "Registratie", value: "openForRegistration", sortable: false },
+        { text: "Link", value: "wikiLink", sortable: false },
         { text: "Acties", value: "actions", sortable: false },
       ],
     };
