@@ -1,11 +1,10 @@
 module.exports = mongoose => {
   var schema = mongoose.Schema(
     {
-      title: String,
-      description: String,
-      openForRegistration: Boolean,
-      wikiLink: String,
-      clubId: String
+      name: String,
+      city: String,
+      streetName: String,
+      URL: String,
     },
     { timestamps: true }
   );
@@ -16,6 +15,6 @@ module.exports = mongoose => {
     return object;
   });
 
-  const Sport = mongoose.model("sport", schema);
+  const Sport = mongoose.model("club", schema);
   return Sport;
 };
