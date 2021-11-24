@@ -25,7 +25,7 @@ jobs:
     - name: Build
       run: |
         cd SportCommunity
-        yarn
+        # yarn
         yarn test:unit
         
         
