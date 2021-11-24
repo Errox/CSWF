@@ -7,5 +7,6 @@ const db = {};
 db.mongoose = mongoose;
 db.url = dbConfig.url;
 db.sports = require("./sport.model.js")(mongoose);
+db.registrations = require("./registration.model.js")(mongoose);
 
 module.exports = db;

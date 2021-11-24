@@ -1,10 +1,8 @@
 module.exports = mongoose => {
   var schema = mongoose.Schema(
     {
-      title: String,
-      description: String,
-      openForRegistration: Boolean,
-      wikiLink: String,
+      userId: String,
+      sportId: String,
       clubId: String
     },
     { timestamps: true }
@@ -16,6 +14,6 @@ module.exports = mongoose => {
     return object;
   });
 
-  const Sport = mongoose.model("sport", schema);
+  const Sport = mongoose.model("registration", schema);
   return Sport;
 };
