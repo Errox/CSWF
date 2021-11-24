@@ -25,7 +25,8 @@ jobs:
     - name: Build
       run: |
         cd SportCommunity
-        yarn install 
+        yarn --version
+        yarn install --verbose  
         yarn test:unit
         
         
