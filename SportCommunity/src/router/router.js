@@ -39,6 +39,24 @@ export default new Router({
       name: "registrations-add",
       component: () => import("../components/Registration/AddRegistration.vue")
     },
+
+        //Routes for Clubs
+    {// List all Clubs
+      path: "/clubs",
+      name: "clubs",
+      component: () => import("../components/Club/ClubList.vue")
+    },
+    {// Detailed version of a Clubs which can be edited
+      path: "/clubs/:id",
+      name: "clubs-details",
+      component: () => import("../components/Club/Club.vue")
+    },
+    {// Add new Clubs TODO: fix going towards add Clubs and not detailed
+      path: "/clubs/add",
+      name: "clubs-add",
+      component: () => import("../components/Club/AddClub.vue")
+    },
+
     //Misc
     {// About page on home URL. Must be changed in future 
       path: "/",
