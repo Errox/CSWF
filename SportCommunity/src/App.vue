@@ -3,6 +3,8 @@
     <v-app-bar app dark>
       <button type="button" @click="click('About')"> SportCommunity </button>
       <button type="button" @click="click('sports')"> Alle sporten </button>
+      <button type="button" @click="click('registrations')"> Alle registraties </button>
+      <button type="button" @click="click('clubs')"> Alle clubs </button>
       <button type="button" @click="click('AboutUrl')"> About </button>
     </v-app-bar>
 
@@ -18,7 +20,12 @@ export default {
   name: 'App',
   methods: {
     click(url){
-      this.$router.push({ name: url });
+      var tmp = this.$route.fullPath.replace(/[^a-zA-Z0-9]/g, '');
+      
+      console.log(tmp + " : " + url);
+      if(url != tmp){
+        this.$router.push({ name: url });
+      }
     }
   },
     
