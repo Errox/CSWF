@@ -68,6 +68,7 @@ export default {
       var data = {
         title: this.sport.title,
         description: this.sport.description,
+        wikiLink: this.sport.wikiLink
       };
 
       SportDataService.create(data)
