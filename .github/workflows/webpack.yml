@@ -25,7 +25,8 @@ jobs:
     - name: Build
       run: |
         cd SportCommunity
-        yarn
+        yarn --version
+        yarn install --verbose --frozen-lockfile
         yarn test:unit
         
         
