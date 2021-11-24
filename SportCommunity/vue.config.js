@@ -6,6 +6,7 @@ module.exports = {
     devtool: 'source-map'
   },
   devServer: {
-    port: 8081
+    port: 8081,
+    proxy: 'https://apicswf.herokuapp.com/'
   }
 }
