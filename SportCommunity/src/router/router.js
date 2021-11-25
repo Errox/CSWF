@@ -3,6 +3,8 @@ import Router from "vue-router";
 
 Vue.use(Router);
 
+
+
 export default new Router({
   mode: "history",
   routes: [
@@ -40,7 +42,7 @@ export default new Router({
       component: () => import("../components/Registration/AddRegistration.vue")
     },
 
-        //Routes for Clubs
+    //Routes for Clubs
     {// List all Clubs
       path: "/clubs",
       name: "clubs",
@@ -55,6 +57,23 @@ export default new Router({
       path: "/clubs/add",
       name: "clubs-add",
       component: () => import("../components/Club/AddClub.vue")
+    },
+
+    //Routes for FanProducts
+    {// List all FanProducts
+      path: "/fanProducts",
+      name: "fanProducts",
+      component: () => import("../components/FanProduct/FanProductList.vue")
+    },
+    {// Detailed version of a Clubs which can be edited
+      path: "/fanProducts/:id",
+      name: "fanProducts-details",
+      component: () => import("../components/FanProduct/FanProduct.vue")
+    },
+    {// Add new Clubs TODO: fix going towards add Clubs and not detailed
+      path: "/fanProducts/add",
+      name: "fanProducts-add",
+      component: () => import("../components/FanProduct/AddFanProduct.vue")
     },
 
     //Misc
