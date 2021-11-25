@@ -14,7 +14,8 @@ exports.create = (req, res) => {
     title: req.body.title,
     description: req.body.description,
     wikiLink: req.body.wikiLink,
-    openForRegistration: req.body.openForRegistration ? req.body.openForRegistration : false
+    openForRegistration: req.body.openForRegistration ? req.body.openForRegistration : false,
+    // clubId: req.body.clubId
   });
 
   // Save Sport in the database
@@ -114,7 +115,7 @@ exports.delete = (req, res) => {
 };
 
 
-// Find all published Sports
+// Find all open for registration Sports
 exports.findAllOpenForRegistration = (req, res) => {
   Sport.find({ openForRegistration: true })
     .then(data => {

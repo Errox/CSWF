@@ -1,5 +1,6 @@
 const db = require("../models");
 const Club = db.clubs;
+// const Sport = db.sports;
 
 // Create and Save a new Club
 exports.create = (req, res) => {
@@ -15,6 +16,7 @@ exports.create = (req, res) => {
     city: req.body.city,
     streetName: req.body.streetName,
     URL: req.body.URL 
+    //sportId[] : sport.findAll(clubId);
   });
 
   // Save Club in the database
@@ -109,21 +111,6 @@ exports.delete = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: "Could not delete Club with id=" + id
-      });
-    });
-};
-
-
-// Find all published Clubs
-exports.findAllOpenForRegistration = (req, res) => {
-  Club.find({ openForRegistration: true })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving clubs."
       });
     });
 };

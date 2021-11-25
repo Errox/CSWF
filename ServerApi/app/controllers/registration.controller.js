@@ -1,5 +1,8 @@
 const db = require("../models");
 const Registration = db.registrations;
+// const Club = db.clubs;
+// const Sport = db.sports
+// const User = db.users;
 
 // Create and Save a new Registration
 exports.create = (req, res) => {
@@ -112,17 +115,3 @@ exports.delete = (req, res) => {
     });
 };
 
-
-// Find all published Registrations
-exports.findAllOpenForRegistration = (req, res) => {
-  Registration.find({ openForRegistration: true })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving registrations."
-      });
-    });
-};
