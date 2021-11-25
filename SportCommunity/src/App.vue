@@ -5,6 +5,7 @@
       <button type="button" @click="click('sports')"> Alle sporten </button>
       <button type="button" @click="click('registrations')"> Alle registraties </button>
       <button type="button" @click="click('clubs')"> Alle clubs </button>
+      <button type="button" @click="click('fanProducts')"> Alle Fan producten </button>
       <button type="button" @click="click('AboutUrl')"> About </button>
     </v-app-bar>
 
