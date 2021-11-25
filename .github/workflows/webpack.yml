@@ -26,7 +26,7 @@ jobs:
       run: |
         cd SportCommunity
         yarn --version
-        yarn install --verbose --frozen-lockfile
+        yarn install --frozen-lockfile
         yarn test:unit
         
         
