@@ -5,6 +5,7 @@ module.exports = mongoose => {
       city: String,
       streetName: String,
       URL: String,
+      createdBy: String //userId
     },
     { timestamps: true }
   );
