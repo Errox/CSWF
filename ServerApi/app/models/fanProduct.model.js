@@ -15,6 +15,6 @@ module.exports = mongoose => {
     return object;
   });
 
-  const Sport = mongoose.model("fanProduct", schema);
-  return Sport;
+  const FanProduct = mongoose.model("fanProduct", schema);
+  return FanProduct;
 };

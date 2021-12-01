@@ -1,38 +1,41 @@
 const db = require("../models");
+const config = require("../config/auth.config")
 const User = db.users;
-// const Sport = db.sports;
+
+var jwt = require("jsonwebtoken");
+var bcrypt = require("bcryptjs");
 
 // Create and Save a new User
-exports.create = (req, res) => {
-  // Validate request
-  if (!req.body.name) {
-    res.status(400).send({ message: "Content can not be empty!" });
-    return;
-  }
+// exports.create = (req, res) => {
+//   // Validate request
+//   if (!req.body.name) {
+//     res.status(400).send({ message: "Content can not be empty!" });
+//     return;
+//   }
 
-  // Create a User
-  const user = new User({
-    name: req.body.name,
-    surName: req.body.surName,
-    email: req.body.email,
-    password: req.body.password,
-    dateOfBirth: req.body.dateOfBirth
-    //sportId[] : sport.findAll(userId);
-  });
+//   // Create a User
+//   const user = new User({
+//     name: req.body.name,
+//     surName: req.body.surName,
+//     email: req.body.email,
+//     password: req.body.password,
+//     dateOfBirth: req.body.dateOfBirth
+//     //sportId[] : sport.findAll(userId);
+//   });
 
-  // Save User in the database
-  user
-    .save(user)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the User."
-      });
-    });
-};
+//   // Save User in the database
+//   user
+//     .save(user)
+//     .then(data => {
+//       res.send(data);
+//     })
+//     .catch(err => {
+//       res.status(500).send({
+//         message:
+//           err.message || "Some error occurred while creating the User."
+//       });
+//     });
+// };
 
 // Retrieve all Users from the database.
 exports.findAll = (req, res) => {
@@ -67,6 +70,26 @@ exports.findOne = (req, res) => {
         .send({ message: "Error retrieving User with id=" + id });
     });
 };
+
+// Find a single User with email
+exports.findOneByEmail = (req, res) => {
+  const email = req.params.email;
+
+  var condition = email ? { email: { $regex: new RegExp(email), $options: "i" } } : {};
+
+  User.find(condition)
+    .then(data => {
+      if (!data)
+        req.status(404).send({ message: "User with " + email + " can' be found"})
+      else
+        res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Error retrieving User with email="+email});
+      });
+    };
 
 // Update a User by the id in the request
 exports.update = (req, res) => {
@@ -112,6 +135,76 @@ exports.delete = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: "Could not delete User with id=" + id
+      });
+    });
+};
+
+exports.allAccess = (req, res) => {
+  res.status(200).send("Public Content.");
+};
+
+exports.userBoard = (req, res) => {
+  res.status(200).send("User Content.");
+};
+
+// AUTHORIZATION
+exports.signup = (req, res) => {
+  const user = new User({
+    name: req.body.name,
+    surName: req.body.surName,
+    dateOfBirth: req.body.dateOfBirth,
+    email: req.body.email,
+    password: bcrypt.hashSync(req.body.password, 8)
+  });
+
+  user.save((err, user) => {
+    if (err) {
+      // Mostly this could be a error when the given email is already registered. TODO: Might need a better solution / error handeling. 
+      res.status(500).send({ message: "Some error occurred while creating the user" });
+      return;
+    }
+    res.send({ message: user.email + "User was registered successfully!" });
+  });
+};
+
+exports.signin = (req, res) => {
+
+  User.findOne({
+    email: req.body.email
+  })
+    .exec((err, user) => {
+      if (err) {
+        res.status(500).send({ message: "Some error occurred while signing in the user" });
+        return;
+      }
+
+      if (!user) {
+        return res.status(404).send({ message: "User Not found." });
+      }
+
+      var passwordIsValid = bcrypt.compareSync(
+        req.body.password,
+        user.password
+      );
+
+      if (!passwordIsValid) {
+        return res.status(401).send({
+          accessToken: null,
+          message: "Invalid Password!"
+        });
+      }
+
+      var token = jwt.sign({ id: user.id }, config.secret, {
+        expiresIn: 86400 // 24 hours
+      });
+
+      res.status(200).send({
+        id: user._id,
+        name: user.name,
+        surName: user.surName,
+        email: user.email,
+        dateOfBirth: user.dateOfBirth,
+        accessToken: token
       });
     });
 };
