@@ -6,8 +6,6 @@ verifyToken = (req, res, next) => {
   var tempToken = req.headers.authorization;
   let token = tempToken.split(" ")[1];
 
-  console.log(token);
-
   if (!token) {
     return res.status(403).send({ message: "No token provided!" });
   }
