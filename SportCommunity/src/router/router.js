@@ -65,16 +65,36 @@ export default new Router({
       name: "fanProducts",
       component: () => import("../components/FanProduct/FanProductList.vue")
     },
-    {// Detailed version of a Clubs which can be edited
+    {// Detailed version of a FanProducts which can be edited
       path: "/fanProducts/:id",
       name: "fanProducts-details",
       component: () => import("../components/FanProduct/FanProduct.vue")
     },
-    {// Add new Clubs TODO: fix going towards add Clubs and not detailed
+    {// Add new FanProducts TODO: fix going towards add FanProducts and not detailed
       path: "/fanProducts/add",
       name: "fanProducts-add",
       component: () => import("../components/FanProduct/AddFanProduct.vue")
     },
+
+    //Routes for users
+    {// List all users
+      path: "/users",
+      name: "users",
+      component: () => import("../components/User/UserList.vue")
+    },
+    {// Detailed version of a users which can be edited
+      path: "/users/:id",
+      name: "users-details",
+      component: () => import("../components/User/User.vue")
+    },
+    {// Add new users TODO: fix going towards add users and not detailed
+      path: "/users/add",
+      name: "users-add",
+      component: () => import("../components/User/AddUser.vue")
+    },
+
+
+
 
     //Misc
     {// About page on home URL. Must be changed in future 
