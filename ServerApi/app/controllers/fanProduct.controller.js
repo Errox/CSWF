@@ -1,13 +1,24 @@
 const db = require("../models");
 const FanProduct = db.fanProducts;
+const Club = db.clubs;
 
 // Create and Save a new FanProduct
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.productTitle) {
-    res.status(400).send({ message: "Content can not be empty!" });
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
     return;
   }
+
+  if (!req.body.clubId) {
+    res.status(400).send({
+      message: "Missing clubId!"
+    });
+  }
+
+
 
   // Create a FanProduct
   const fanProduct = new FanProduct({
@@ -15,19 +26,38 @@ exports.create = (req, res) => {
     description: req.body.description,
     buyLink: req.body.buyLink,
     price: req.body.price,
-    // clubId: req.body.ClubId 
   });
 
   // Save FanProduct in the database
   fanProduct
     .save(fanProduct)
     .then(data => {
-      res.send(data);
+      var fanproduct = data;
+      // Get the club
+      db.clubs.findByIdAndUpdate(
+          req.body.clubId, {
+            $push: {
+              fanProducts: fanProduct
+            }
+          }, {
+            new: true,
+            useFindAndModify: false
+          }
+        ).then(data => {
+          // update club 
+          res.send(fanproduct);
+        })
+        .catch(err => {
+          res.status(500).send({
+            message: err.message || "Some Error occured while updating the club with the new fanProduct"
+          })
+        });
+
+
     })
     .catch(err => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the FanProduct."
+        message: err.message || "Some error occurred while creating the FanProduct."
       });
     });
 };
@@ -35,7 +65,12 @@ exports.create = (req, res) => {
 // Retrieve all FanProducts from the database.
 exports.findAll = (req, res) => {
   const productTitle = req.query.productTitle;
-  var condition = productTitle ? { productTitle: { $regex: new RegExp(productTitle), $options: "i" } } : {};
+  var condition = productTitle ? {
+    productTitle: {
+      $regex: new RegExp(productTitle),
+      $options: "i"
+    }
+  } : {};
 
   FanProduct.find(condition)
     .then(data => {
@@ -43,8 +78,7 @@ exports.findAll = (req, res) => {
     })
     .catch(err => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving fanProducts."
+        message: err.message || "Some error occurred while retrieving fanProducts."
       });
     });
 };
@@ -56,13 +90,17 @@ exports.findOne = (req, res) => {
   FanProduct.findById(id)
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Not found FanProduct with id " + id });
+        res.status(404).send({
+          message: "Not found FanProduct with id " + id
+        });
       else res.send(data);
     })
     .catch(err => {
       res
         .status(500)
-        .send({ message: "Error retrieving FanProduct with id=" + id });
+        .send({
+          message: "Error retrieving FanProduct with id=" + id
+        });
     });
 };
 
@@ -76,13 +114,17 @@ exports.update = (req, res) => {
 
   const id = req.params.id;
 
-  FanProduct.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+  FanProduct.findByIdAndUpdate(id, req.body, {
+      useFindAndModify: false
+    })
     .then(data => {
       if (!data) {
         res.status(404).send({
           message: `Cannot update FanProduct with id=${id}. Maybe FanProduct was not found!`
         });
-      } else res.send({ message: "FanProduct was updated successfully." });
+      } else res.send({
+        message: "FanProduct was updated successfully."
+      });
     })
     .catch(err => {
       res.status(500).send({
@@ -95,7 +137,9 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  FanProduct.findByIdAndRemove(id, { useFindAndModify: false })
+  FanProduct.findByIdAndRemove(id, {
+      useFindAndModify: false
+    })
     .then(data => {
       if (!data) {
         res.status(404).send({

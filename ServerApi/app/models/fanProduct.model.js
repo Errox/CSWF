@@ -4,8 +4,7 @@ module.exports = mongoose => {
       productTitle: String,
       description: String,
       buyLink: String,
-      price: Number,
-      clubId: String 
+      price: Number
     },
     { timestamps: true }
   );

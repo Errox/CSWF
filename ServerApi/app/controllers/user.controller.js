@@ -139,12 +139,21 @@ exports.delete = (req, res) => {
     });
 };
 
+//User content to test if 
 exports.allAccess = (req, res) => {
   res.status(200).send("Public Content.");
 };
 
 exports.userBoard = (req, res) => {
-  res.status(200).send("User Content.");
+  var tempToken = req.headers.authorization;
+
+  let token = tempToken.split(" ")[1];
+
+  const payload = jwt.verify(token, config.secret, {ignoreExpiration: true});
+
+  payload.message = "Auhtorized content";
+
+  res.status(200).send(payload);
 };
 
 // AUTHORIZATION
@@ -154,16 +163,19 @@ exports.signup = (req, res) => {
     surName: req.body.surName,
     dateOfBirth: req.body.dateOfBirth,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
+    password: bcrypt.hashSync(req.body.password, 7)
   });
-
+  
   user.save((err, user) => {
     if (err) {
-      // Mostly this could be a error when the given email is already registered. TODO: Might need a better solution / error handeling. 
-      res.status(500).send({ message: "Some error occurred while creating the user" });
+      console.log(err.message);
+      if(err.message.includes("E11000 duplicate key error collection: myFirstDatabase.users index: email_1 dup key"))
+        res.status(500).send({ message: req.body.email + " is already registered. Please use another one."})
+      else
+        res.status(500).send({ message: "Some error occurred while creating the user" });
       return;
     }
-    res.send({ message: user.email + "User was registered successfully!" });
+    res.send({ message: user.email + " user was registered successfully!" });
   });
 };
 
@@ -194,7 +206,7 @@ exports.signin = (req, res) => {
         });
       }
 
-      var token = jwt.sign({ id: user.id }, config.secret, {
+      var token = jwt.sign({ id: user.id, email: user.email, name: user.name, surName: user.surName }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
 

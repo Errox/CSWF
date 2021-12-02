@@ -2,8 +2,7 @@ module.exports = mongoose => {
   var schema = mongoose.Schema(
     {
       userId: String,
-      sportId: String,
-      clubId: String
+      sportId: String
     },
     { timestamps: true }
   );

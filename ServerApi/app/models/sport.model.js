@@ -4,8 +4,7 @@ module.exports = mongoose => {
       title: String,
       description: String,
       openForRegistration: Boolean,
-      wikiLink: String,
-      clubId: String
+      wikiLink: String
     },
     { timestamps: true }
   );
