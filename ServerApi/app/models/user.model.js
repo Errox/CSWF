@@ -1,10 +1,14 @@
 module.exports = mongoose => {
   var schema = mongoose.Schema(
     {
-      productTitle: String,
-      description: String,
-      buyLink: String,
-      price: Number
+      name: String,
+      surName: String,
+      email: {
+         type: String, 
+         unique: true
+      },
+      password: String,
+      dateOfBirth: Date,
     },
     { timestamps: true }
   );
@@ -15,6 +19,6 @@ module.exports = mongoose => {
     return object;
   });
 
-  const FanProduct = mongoose.model("fanProduct", schema);
-  return FanProduct;
+  const User = mongoose.model("user", schema);
+  return User;
 };
