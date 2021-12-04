@@ -8,17 +8,14 @@ const User = db.users;
 // Create and Save a new Club
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.name) {
+  if (!req.body.name || !req.body.city || !req.body.streetName || !req.body.URL) {
     res.status(400).send({ message: "Content can not be empty!" });
     return;
   }
   
-  
+  // Fetch users token and add it's own information
   var tempToken = req.headers.authorization;
-  
-  let token = tempToken.split(" ")[1];
-
-  const payload = jwt.verify(token, config.secret, {ignoreExpiration: true});
+  const payload = jwt.verify(tempToken.split(" ")[1], config.secret, {ignoreExpiration: true});
 
   // Create a Club
   const club = new Club({
@@ -35,6 +32,7 @@ exports.create = (req, res) => {
   club
     .save(club)
     .then(data => {
+      console.log(data);
         res.send(data);
     })
     .catch(err => {
