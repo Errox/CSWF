@@ -140,7 +140,7 @@ exports.delete = (req, res) => {
 };
 
 //User content to test if 
-exports.allAccess = (req, res) => {
+exports.publicAccess = (req, res) => {
   res.status(200).send("Public Content.");
 };
 
@@ -172,7 +172,7 @@ exports.signup = (req, res) => {
       if(err.message.includes("E11000 duplicate key error collection: myFirstDatabase.users index: email_1 dup key"))
         res.status(500).send({ message: req.body.email + " is already registered. Please use another one."})
       else
-        res.status(500).send({ message: "Some error occurred while creating the user" });
+        res.status(500).send({ message: "Some error occurred while creating the user", error: err.message});
       return;
     }
     res.send({ message: user.email + " user was registered successfully!" });
@@ -180,7 +180,6 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
-
   User.findOne({
     email: req.body.email
   })

@@ -5,8 +5,8 @@ module.exports = app => {
   var router = require("express").Router();
 
   
-  // Check if user has all access
-  router.get("/all", users.allAccess);
+  // Check if user has public Access
+  router.get("/publicAccess", users.publicAccess);
 
   // Check if user is logged in
   router.get("/AuthCheck", [authJwt.verifyToken], users.userBoard);
