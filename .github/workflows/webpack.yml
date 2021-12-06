@@ -55,8 +55,9 @@ jobs:
     - name: Build
       run: |
             cd ServerApi
-            npm install
-            npm test
+            yarn --version
+            yarn install --frozen-lockfile
+            yarn test
       
     - name: Deploy to Heroku
       uses: AkhileshNS/heroku-deploy@v3.12.12
