@@ -263,3 +263,10 @@ describe("Testing-server-club-routes", () => {
       expect(deleteClubData.body.message.includes("Could not delete Club with id=") || deleteClubData.body.message.includes("Cannot delete Club with id")).toBeTruthy();
   })
 })
+
+
+afterAll(done => {
+  // Closing the DB connection allows Jest to exit successfully.
+  db.mongoose.connection.close()
+  done()
+})
