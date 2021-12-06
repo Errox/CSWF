@@ -2,8 +2,7 @@ module.exports = mongoose => {
   var schema = mongoose.Schema(
     {
       userId: String,
-      sportId: String,
-      clubId: String
+      sportId: String
     },
     { timestamps: true }
   );
@@ -14,6 +13,6 @@ module.exports = mongoose => {
     return object;
   });
 
-  const Sport = mongoose.model("registration", schema);
-  return Sport;
+  const Registration = mongoose.model("registration", schema);
+  return Registration;
 };

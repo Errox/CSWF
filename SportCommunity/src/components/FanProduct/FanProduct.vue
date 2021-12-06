@@ -54,70 +54,70 @@
 import FanProductDataService from "../../services/FanProductDataService";
 
 export default {
-  name: "fanproduct",
-  data() {
-    return {
-      currentFanProduct: null,
-      message: "",
-    };
-  },
-  methods: {
-    getFanProduct(id) {
-      FanProductDataService.get(id)
-        .then((response) => {
-          console.log(this.currentFanProduct);
-          this.currentFanProduct = response.data;
-          console.log(this.currentFanProduct);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+	name: "fanproduct",
+	data() {
+		return {
+			currentFanProduct: null,
+			message: "",
+		};
+	},
+	methods: {
+		getFanProduct(id) {
+			FanProductDataService.get(id)
+				.then((response) => {
+					console.log(this.currentFanProduct);
+					this.currentFanProduct = response.data;
+					console.log(this.currentFanProduct);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    updateOpenForRegistration() {
-      var data = {
-        id: this.currentFanProduct.id,
-        productTitle: this.currentFanProduct.productTitle,
-        description: this.currentFanProduct.description,
-        buyLink : this.currentFanProduct.buyLink,
-        price : this.currentFanProduct.price,
-      };
+		updateOpenForRegistration() {
+			const data = {
+				id: this.currentFanProduct.id,
+				productTitle: this.currentFanProduct.productTitle,
+				description: this.currentFanProduct.description,
+				buyLink: this.currentFanProduct.buyLink,
+				price: this.currentFanProduct.price,
+			};
 
-      FanProductDataService.update(this.currentFanProduct.id, data)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+			FanProductDataService.update(this.currentFanProduct.id, data)
+				.then((response) => {
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    updateFanProduct() {
-      FanProductDataService.update(this.currentFanProduct.id, this.currentFanProduct)
-        .then((response) => {
-          console.log(response.data);
-          this.message = "The fanProduct was updated successfully!";
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		updateFanProduct() {
+			FanProductDataService.update(this.currentFanProduct.id, this.currentFanProduct)
+				.then((response) => {
+					console.log(response.data);
+					this.message = "The fanProduct was updated successfully!";
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    deleteFanProduct() {
-      FanProductDataService.delete(this.currentFanProduct.id)
-        .then((response) => {
-          console.log(response.data);
-          this.$router.push({ name: "fanProducts" });
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-  },
-  mounted() {
-    this.message = "";
-    this.getFanProduct(this.$route.params.id);
-  },
+		deleteFanProduct() {
+			FanProductDataService.delete(this.currentFanProduct.id)
+				.then((response) => {
+					console.log(response.data);
+					this.$router.push({name: "fanProducts"});
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
+	},
+	mounted() {
+		this.message = "";
+		this.getFanProduct(this.$route.params.id);
+	},
 };
 </script>
 

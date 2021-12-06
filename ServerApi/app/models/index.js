@@ -10,5 +10,6 @@ db.sports = require("./sport.model.js")(mongoose);
 db.clubs = require("./club.model.js")(mongoose);
 db.registrations = require("./registration.model.js")(mongoose);
 db.fanProducts = require("./fanProduct.model")(mongoose);
+db.users = require("./user.model")(mongoose);
 
 module.exports = db;

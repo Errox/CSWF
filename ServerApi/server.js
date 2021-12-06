@@ -35,10 +35,12 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to the sportCommunity API." });
 });
 
+//Set all routes into the application
 require("./app/routes/sport.routes")(app);
 require("./app/routes/club.routes")(app);
 require("./app/routes/registration.routes")(app);
 require("./app/routes/fanProduct.routes")(app);
+require("./app/routes/user.routes")(app);
 
 
 // set port, listen for requests

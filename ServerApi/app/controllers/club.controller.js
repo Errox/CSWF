@@ -1,35 +1,43 @@
 const db = require("../models");
+var jwt = require("jsonwebtoken");
+const config = require("../config/auth.config")
 const Club = db.clubs;
+const User = db.users;
 // const Sport = db.sports;
 
 // Create and Save a new Club
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.name) {
+  if (!req.body.name || !req.body.city || !req.body.streetName || !req.body.URL) {
     res.status(400).send({ message: "Content can not be empty!" });
     return;
   }
+  
+  // Fetch users token and add it's own information
+  var tempToken = req.headers.authorization;
+  const payload = jwt.verify(tempToken.split(" ")[1], config.secret, {ignoreExpiration: true});
 
   // Create a Club
   const club = new Club({
     name: req.body.name,
     city: req.body.city,
     streetName: req.body.streetName,
-    URL: req.body.URL 
-    //sportId[] : sport.findAll(clubId);
+    URL: req.body.URL,
+    createdById: payload.id,
+    createdByName: payload.name + " " + payload.surName
   });
 
+  
   // Save Club in the database
   club
     .save(club)
     .then(data => {
-      res.send(data);
+        res.send(data);
     })
     .catch(err => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Club."
-      });
+        message: err.message || "Some Error occured while updating the club with the new fanProduct"
+      })
     });
 };
 
@@ -55,12 +63,15 @@ exports.findOne = (req, res) => {
   const id = req.params.id;
 
   Club.findById(id)
+    .populate('sports')
+    .populate('fanProducts')
     .then(data => {
       if (!data)
         res.status(404).send({ message: "Not found Club with id " + id });
       else res.send(data);
     })
     .catch(err => {
+      console.log(err);
       res
         .status(500)
         .send({ message: "Error retrieving Club with id=" + id });

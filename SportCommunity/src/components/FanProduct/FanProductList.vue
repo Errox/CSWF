@@ -37,88 +37,88 @@
 <script>
 import FanProductDataService from "../../services/FanProductDataService";
 export default {
-  name: "fanProducts-list",
-  data() {
-    return {
-      fanProducts: [],
-      title: "",
-      headers: [
-        { text: "productTitle", align: "start", sortable: false, value: "productTitle" },
-        { text: "Beschrijving", value: "description", sortable: false },
-        { text: "buyLink", value: "buyLink", sortable: false },
-        { text: "price", value: "price", sortable: false },
-        { text: "Acties", value: "actions", sortable: false },
-      ],
-    };
-  },
-  methods: {
-    retrieveFanProducts() {
-      FanProductDataService.getAll()
-        .then((response) => {
-          this.fanProducts = response.data.map(this.getDisplayFanProduct);
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+	name: "fanProducts-list",
+	data() {
+		return {
+			fanProducts: [],
+			title: "",
+			headers: [
+				{text: "productTitle", align: "start", sortable: false, value: "productTitle"},
+				{text: "Beschrijving", value: "description", sortable: false},
+				{text: "buyLink", value: "buyLink", sortable: false},
+				{text: "price", value: "price", sortable: false},
+				{text: "Acties", value: "actions", sortable: false},
+			],
+		};
+	},
+	methods: {
+		retrieveFanProducts() {
+			FanProductDataService.getAll()
+				.then((response) => {
+					this.fanProducts = response.data.map(this.getDisplayFanProduct);
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    refreshList() {
-      this.retrieveFanProducts();
-    },
+		refreshList() {
+			this.retrieveFanProducts();
+		},
 
-    removeAllFanProducts() {
-      FanProductDataService.deleteAll()
-        .then((response) => {
-          console.log(response.data);
-          this.refreshList();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		removeAllFanProducts() {
+			FanProductDataService.deleteAll()
+				.then((response) => {
+					console.log(response.data);
+					this.refreshList();
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    searchTitle() {
-      FanProductDataService.findByTitle(this.title)
-        .then((response) => {
-          this.fanProducts = response.data.map(this.getDisplayFanProduct);
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		searchTitle() {
+			FanProductDataService.findByTitle(this.title)
+				.then((response) => {
+					this.fanProducts = response.data.map(this.getDisplayFanProduct);
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    editFanProduct(id) {
-      this.$router.push({ path: '/fanProducts/'+id });
-    },
+		editFanProduct(id) {
+			this.$router.push({path: "/fanProducts/"+id});
+		},
 
-    deleteFanProduct(id) {
-      FanProductDataService.delete(id)
-        .then(() => {
-          this.refreshList();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		deleteFanProduct(id) {
+			FanProductDataService.delete(id)
+				.then(() => {
+					this.refreshList();
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    getDisplayFanProduct(fanProduct) {
-      return {
-        id: fanProduct.id,
-        productTitle: fanProduct.productTitle,//.length > 30 ? fanProduct.title.substr(0, 30) + "..." : fanProduct.title,
-        description: fanProduct.description,//.length > 30 ? fanProduct.description.substr(0, 30) + "..." : fanProduct.description,
-        buyLink: fanProduct.buyLink,//.length > 30 ? fanProduct.wikiLink.substr(0, 30) + "..." : fanProduct.wikiLink,
-        price: fanProduct.price,
-      };
-    },
-    click(url){
-      this.$router.push({ name: url });
-    },
-  },
-  mounted() {
-    this.retrieveFanProducts();
-  },
+		getDisplayFanProduct(fanProduct) {
+			return {
+				id: fanProduct.id,
+				productTitle: fanProduct.productTitle, // .length > 30 ? fanProduct.title.substr(0, 30) + "..." : fanProduct.title,
+				description: fanProduct.description, // .length > 30 ? fanProduct.description.substr(0, 30) + "..." : fanProduct.description,
+				buyLink: fanProduct.buyLink, // .length > 30 ? fanProduct.wikiLink.substr(0, 30) + "..." : fanProduct.wikiLink,
+				price: fanProduct.price,
+			};
+		},
+		click(url) {
+			this.$router.push({name: url});
+		},
+	},
+	mounted() {
+		this.retrieveFanProducts();
+	},
 };
 </script>
 

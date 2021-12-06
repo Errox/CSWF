@@ -45,29 +45,29 @@
 import ClubDataService from "../../services/ClubDataService";
 
 export default {
-  name: "club",
-  data() {
-    return {
-      currentClub: null,
-      message: "",
-    };
-  },
-  methods: {
-    getClub(id) {
-      ClubDataService.get(id)
-        .then((response) => {
-          this.currentClub = response.data;
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-  },
-  mounted() {
-    this.message = "";
-    this.getClub(this.$route.params.id);
-  },
+	name: "club",
+	data() {
+		return {
+			currentClub: null,
+			message: "",
+		};
+	},
+	methods: {
+		getClub(id) {
+			ClubDataService.get(id)
+				.then((response) => {
+					this.currentClub = response.data;
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
+	},
+	mounted() {
+		this.message = "";
+		this.getClub(this.$route.params.id);
+	},
 };
 </script>
 

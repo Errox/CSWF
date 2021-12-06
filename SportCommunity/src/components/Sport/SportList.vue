@@ -37,88 +37,87 @@
 <script>
 import SportDataService from "../../services/SportDataService";
 export default {
-  name: "sports-list",
-  data() {
-    return {
-      sports: [],
-      title: "",
-      headers: [
-        { text: "Titel", align: "start", sortable: false, value: "title" },
-        { text: "Beschrijving", value: "description", sortable: false },
-        { text: "Registratie", value: "openForRegistration", sortable: false },
-        { text: "Link", value: "wikiLink", sortable: false },
-        { text: "Acties", value: "actions", sortable: false },
-      ],
-    };
-  },
-  methods: {
-    retrieveSports() {
-      SportDataService.getAll()
-        .then((response) => {
-          this.sports = response.data.map(this.getDisplaySport);
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+	name: "sports-list",
+	data() {
+		return {
+			sports: [],
+			title: "",
+			headers: [
+				{text: "Titel", align: "start", sortable: false, value: "title"},
+				{text: "Beschrijving", value: "description", sortable: false},
+				{text: "Registratie", value: "openForRegistration", sortable: false},
+				{text: "Link", value: "wikiLink", sortable: false},
+				{text: "Acties", value: "actions", sortable: false},
+			],
+		};
+	},
+	methods: {
+		retrieveSports() {
+			SportDataService.getAll()
+				.then((response) => {
+					this.sports = response.data.map(this.getDisplaySport);
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    refreshList() {
-      this.retrieveSports();
-    },
+		refreshList() {
+			this.retrieveSports();
+		},
 
-    removeAllSports() {
-      SportDataService.deleteAll()
-        .then((response) => {
-          console.log(response.data);
-          this.refreshList();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		removeAllSports() {
+			SportDataService.deleteAll()
+				.then((response) => {
+					console.log(response.data);
+					this.refreshList();
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    searchTitle() {
-      SportDataService.findByTitle(this.title)
-        .then((response) => {
-          this.sports = response.data.map(this.getDisplaySport);
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		searchTitle() {
+			SportDataService.findByTitle(this.title)
+				.then((response) => {
+					this.sports = response.data.map(this.getDisplaySport);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    editSport(id) {
-      this.$router.push({ path: '/sports/'+id });
-    },
+		editSport(id) {
+			this.$router.push({path: "/sports/"+id});
+		},
 
-    deleteSport(id) {
-      SportDataService.delete(id)
-        .then(() => {
-          this.refreshList();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		deleteSport(id) {
+			SportDataService.delete(id)
+				.then(() => {
+					this.refreshList();
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    getDisplaySport(sport) {
-      return {
-        id: sport.id,
-        title: sport.title,//.length > 30 ? sport.title.substr(0, 30) + "..." : sport.title,
-        description: sport.description,//.length > 30 ? sport.description.substr(0, 30) + "..." : sport.description,
-        wikiLink: sport.wikiLink,//.length > 30 ? sport.wikiLink.substr(0, 30) + "..." : sport.wikiLink,
-        openForRegistration: sport.openForRegistration ? "Open" : "Gesloten",
-      };
-    },
-    click(url){
-      this.$router.push({ name: url });
-    },
-  },
-  mounted() {
-    this.retrieveSports();
-  },
+		getDisplaySport(sport) {
+			return {
+				id: sport.id,
+				title: sport.title, // .length > 30 ? sport.title.substr(0, 30) + "..." : sport.title,
+				description: sport.description, // .length > 30 ? sport.description.substr(0, 30) + "..." : sport.description,
+				wikiLink: sport.wikiLink, // .length > 30 ? sport.wikiLink.substr(0, 30) + "..." : sport.wikiLink,
+				openForRegistration: sport.openForRegistration ? "Open" : "Gesloten",
+			};
+		},
+		click(url) {
+			this.$router.push({name: url});
+		},
+	},
+	mounted() {
+		this.retrieveSports();
+	},
 };
 </script>
 

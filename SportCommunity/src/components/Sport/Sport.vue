@@ -62,70 +62,70 @@
 import SportDataService from "../../services/SportDataService";
 
 export default {
-  name: "sport",
-  data() {
-    return {
-      currentSport: null,
-      message: "",
-    };
-  },
-  methods: {
-    getSport(id) {
-      SportDataService.get(id)
-        .then((response) => {
-          this.currentSport = response.data;
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+	name: "sport",
+	data() {
+		return {
+			currentSport: null,
+			message: "",
+		};
+	},
+	methods: {
+		getSport(id) {
+			SportDataService.get(id)
+				.then((response) => {
+					this.currentSport = response.data;
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    updateOpenForRegistration(status) {
-      var data = {
-        id: this.currentSport.id,
-        title: this.currentSport.title,
-        description: this.currentSport.description,
-        wikiLink : this.currentSport.wikiLink,
-        openForRegistration: status,
-      };
+		updateOpenForRegistration(status) {
+			const data = {
+				id: this.currentSport.id,
+				title: this.currentSport.title,
+				description: this.currentSport.description,
+				wikiLink: this.currentSport.wikiLink,
+				openForRegistration: status,
+			};
 
-      SportDataService.update(this.currentSport.id, data)
-        .then((response) => {
-          this.currentSport.openForRegistration = status;
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+			SportDataService.update(this.currentSport.id, data)
+				.then((response) => {
+					this.currentSport.openForRegistration = status;
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    updateSport() {
-      SportDataService.update(this.currentSport.id, this.currentSport)
-        .then((response) => {
-          console.log(response.data);
-          this.message = "The sport was updated successfully!";
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		updateSport() {
+			SportDataService.update(this.currentSport.id, this.currentSport)
+				.then((response) => {
+					console.log(response.data);
+					this.message = "The sport was updated successfully!";
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    deleteSport() {
-      SportDataService.delete(this.currentSport.id)
-        .then((response) => {
-          console.log(response.data);
-          this.$router.push({ name: "sports" });
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-  },
-  mounted() {
-    this.message = "";
-    this.getSport(this.$route.params.id);
-  },
+		deleteSport() {
+			SportDataService.delete(this.currentSport.id)
+				.then((response) => {
+					console.log(response.data);
+					this.$router.push({name: "sports"});
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
+	},
+	mounted() {
+		this.message = "";
+		this.getSport(this.$route.params.id);
+	},
 };
 </script>
 

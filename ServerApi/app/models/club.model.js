@@ -1,3 +1,5 @@
+const { mongo } = require("mongoose");
+
 module.exports = mongoose => {
   var schema = mongoose.Schema(
     {
@@ -5,6 +7,10 @@ module.exports = mongoose => {
       city: String,
       streetName: String,
       URL: String,
+      sports: [],
+      fanProducts: [],
+      createdByName: String,
+      createdById: String
     },
     { timestamps: true }
   );
@@ -15,6 +21,6 @@ module.exports = mongoose => {
     return object;
   });
 
-  const Sport = mongoose.model("club", schema);
-  return Sport;
+  const Club = mongoose.model("club", schema);
+  return Club;
 };

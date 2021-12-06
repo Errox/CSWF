@@ -4,7 +4,7 @@ module.exports = mongoose => {
       productTitle: String,
       description: String,
       buyLink: String,
-      price: Number,
+      price: Number
     },
     { timestamps: true }
   );
@@ -15,6 +15,6 @@ module.exports = mongoose => {
     return object;
   });
 
-  const Sport = mongoose.model("fanProduct", schema);
-  return Sport;
+  const FanProduct = mongoose.model("fanProduct", schema);
+  return FanProduct;
 };

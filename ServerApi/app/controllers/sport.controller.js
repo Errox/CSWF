@@ -1,13 +1,24 @@
 const db = require("../models");
 const Sport = db.sports;
+const Club = db.clubs;
 
 // Create and Save a new Sport
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.title) {
-    res.status(400).send({ message: "Content can not be empty!" });
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
     return;
   }
+
+  if (!req.body.clubId) {
+    res.status(400).send({
+      message: "Missing clubId!"
+    });
+    return;
+  }
+
 
   // Create a Sport
   const sport = new Sport({
@@ -15,19 +26,36 @@ exports.create = (req, res) => {
     description: req.body.description,
     wikiLink: req.body.wikiLink,
     openForRegistration: req.body.openForRegistration ? req.body.openForRegistration : false,
-    // clubId: req.body.clubId
   });
 
   // Save Sport in the database
   sport
     .save(sport)
     .then(data => {
-      res.send(data);
+      var sportResponse = data;
+      // Get club
+      db.clubs.findByIdAndUpdate(
+          // update club 
+          req.body.clubId, {
+            $push: {
+              sports: sport
+            }
+          }, {
+            new: true,
+            useFindAndModify: false
+          }
+        ).then(data => {
+          res.send(sportResponse);
+        })
+        .catch(err => {
+          res.status(500).send({
+            message: err.message || "Some Error occured while updating the club with the new fanProduct"
+          })
+        });
     })
     .catch(err => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Sport."
+        message: err.message || "Some error occurred while creating the Sport."
       });
     });
 };
@@ -35,7 +63,12 @@ exports.create = (req, res) => {
 // Retrieve all Sports from the database.
 exports.findAll = (req, res) => {
   const title = req.query.title;
-  var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
+  var condition = title ? {
+    title: {
+      $regex: new RegExp(title),
+      $options: "i"
+    }
+  } : {};
 
   Sport.find(condition)
     .then(data => {
@@ -43,8 +76,7 @@ exports.findAll = (req, res) => {
     })
     .catch(err => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving sports."
+        message: err.message || "Some error occurred while retrieving sports."
       });
     });
 };
@@ -56,13 +88,17 @@ exports.findOne = (req, res) => {
   Sport.findById(id)
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Not found Sport with id " + id });
+        res.status(404).send({
+          message: "Not found Sport with id " + id
+        });
       else res.send(data);
     })
     .catch(err => {
       res
         .status(500)
-        .send({ message: "Error retrieving Sport with id=" + id });
+        .send({
+          message: "Error retrieving Sport with id=" + id
+        });
     });
 };
 
@@ -76,13 +112,17 @@ exports.update = (req, res) => {
 
   const id = req.params.id;
 
-  Sport.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+  Sport.findByIdAndUpdate(id, req.body, {
+      useFindAndModify: false
+    })
     .then(data => {
       if (!data) {
         res.status(404).send({
           message: `Cannot update Sport with id=${id}. Maybe Sport was not found!`
         });
-      } else res.send({ message: "Sport was updated successfully." });
+      } else res.send({
+        message: "Sport was updated successfully."
+      });
     })
     .catch(err => {
       res.status(500).send({
@@ -95,7 +135,9 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Sport.findByIdAndRemove(id, { useFindAndModify: false })
+  Sport.findByIdAndRemove(id, {
+      useFindAndModify: false
+    })
     .then(data => {
       if (!data) {
         res.status(404).send({
@@ -117,14 +159,15 @@ exports.delete = (req, res) => {
 
 // Find all open for registration Sports
 exports.findAllOpenForRegistration = (req, res) => {
-  Sport.find({ openForRegistration: true })
+  Sport.find({
+      openForRegistration: true
+    })
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving sports."
+        message: err.message || "Some error occurred while retrieving sports."
       });
     });
 };
