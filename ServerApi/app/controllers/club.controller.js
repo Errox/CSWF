@@ -32,7 +32,6 @@ exports.create = (req, res) => {
   club
     .save(club)
     .then(data => {
-      console.log(data);
         res.send(data);
     })
     .catch(err => {

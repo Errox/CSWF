@@ -38,29 +38,29 @@
 import RegistrationDataService from "../../services/RegistrationDataService";
 
 export default {
-  name: "registration",
-  data() {
-    return {
-      currentRegistration: null,
-      message: "",
-    };
-  },
-  methods: {
-    getRegistration(id) {
-      RegistrationDataService.get(id)
-        .then((response) => {
-          this.currentRegistration = response.data;
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-  },
-  mounted() {
-    this.message = "";
-    this.getRegistration(this.$route.params.id);
-  },
+	name: "registration",
+	data() {
+		return {
+			currentRegistration: null,
+			message: "",
+		};
+	},
+	methods: {
+		getRegistration(id) {
+			RegistrationDataService.get(id)
+				.then((response) => {
+					this.currentRegistration = response.data;
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
+	},
+	mounted() {
+		this.message = "";
+		this.getRegistration(this.$route.params.id);
+	},
 };
 </script>
 

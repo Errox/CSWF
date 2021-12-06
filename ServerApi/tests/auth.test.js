@@ -72,7 +72,6 @@ describe("Testing-server-auth-routes", () => {
     })
 
     it("GET /AuthCheck - fail | Wrong JWT token provided", async () => {
-        console.log(testUser.accessToken)
         const {
             body
         } = await request(app)
@@ -83,7 +82,6 @@ describe("Testing-server-auth-routes", () => {
     })
 
     it("GET /AuthCheck - succes | JWT token provided", async () => {
-        console.log(testUser.accessToken)
         const {
             body
         } = await request(app)

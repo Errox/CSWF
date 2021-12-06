@@ -37,86 +37,86 @@
 <script>
 import RegistrationDataService from "../../services/RegistrationDataService";
 export default {
-  name: "registrations-list",
-  data() {
-    return {
-      registrations: [],
-      title: "",
-      headers: [
-        { text: "userId", align: "start", sortable: false, value: "userId" },
-        { text: "sportId", value: "sportId", sortable: false },
-        { text: "clubId", value: "clubId", sortable: false },
-        { text: "Acties", value: "actions", sortable: false },
-      ],
-    };
-  },
-  methods: {
-    retrieveRegistrations() {
-      RegistrationDataService.getAll()
-        .then((response) => {
-          this.registrations = response.data.map(this.getDisplayRegistration);
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+	name: "registrations-list",
+	data() {
+		return {
+			registrations: [],
+			title: "",
+			headers: [
+				{text: "userId", align: "start", sortable: false, value: "userId"},
+				{text: "sportId", value: "sportId", sortable: false},
+				{text: "clubId", value: "clubId", sortable: false},
+				{text: "Acties", value: "actions", sortable: false},
+			],
+		};
+	},
+	methods: {
+		retrieveRegistrations() {
+			RegistrationDataService.getAll()
+				.then((response) => {
+					this.registrations = response.data.map(this.getDisplayRegistration);
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    refreshList() {
-      this.retrieveRegistrations();
-    },
+		refreshList() {
+			this.retrieveRegistrations();
+		},
 
-    removeAllRegistrations() {
-      RegistrationDataService.deleteAll()
-        .then((response) => {
-          console.log(response.data);
-          this.refreshList();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		removeAllRegistrations() {
+			RegistrationDataService.deleteAll()
+				.then((response) => {
+					console.log(response.data);
+					this.refreshList();
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    searchTitle() {
-      RegistrationDataService.findByTitle(this.title)
-        .then((response) => {
-          this.registrations = response.data.map(this.getDisplayRegistration);
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		searchTitle() {
+			RegistrationDataService.findByTitle(this.title)
+				.then((response) => {
+					this.registrations = response.data.map(this.getDisplayRegistration);
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    editRegistration(id) {
-      this.$router.push({ path: '/registrations/'+id });
-    },
+		editRegistration(id) {
+			this.$router.push({path: "/registrations/"+id});
+		},
 
-    deleteRegistration(id) {
-      RegistrationDataService.delete(id)
-        .then(() => {
-          this.refreshList();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		deleteRegistration(id) {
+			RegistrationDataService.delete(id)
+				.then(() => {
+					this.refreshList();
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    getDisplayRegistration(registration) {
-      return {
-        id: registration.id,
-        userId: registration.userId,
-        sportId: registration.sportId,
-        clubId: registration.clubId,
-      };
-    },
-    click(url){
-      this.$router.push({ name: url });
-    },
-  },
-  mounted() {
-    this.retrieveRegistrations();
-  },
+		getDisplayRegistration(registration) {
+			return {
+				id: registration.id,
+				userId: registration.userId,
+				sportId: registration.sportId,
+				clubId: registration.clubId,
+			};
+		},
+		click(url) {
+			this.$router.push({name: url});
+		},
+	},
+	mounted() {
+		this.retrieveRegistrations();
+	},
 };
 </script>
 

@@ -51,42 +51,42 @@
 import RegistrationDataService from "../../services/RegistrationDataService";
 
 export default {
-  name: "add-registration",
-  data() {
-    return {
-      registration: {
-        id: null,
-        userId: "",
-        sportId: "",
-        clubId: "",
-      },
-      submitted: false,
-    };
-  },
-  methods: {
-    saveRegistration() {
-      var data = {
-        userId: this.registration.userId,
-        sportId: this.registration.sportId,
-        clubId: this.registration.clubId
-      };
+	name: "add-registration",
+	data() {
+		return {
+			registration: {
+				id: null,
+				userId: "",
+				sportId: "",
+				clubId: "",
+			},
+			submitted: false,
+		};
+	},
+	methods: {
+		saveRegistration() {
+			const data = {
+				userId: this.registration.userId,
+				sportId: this.registration.sportId,
+				clubId: this.registration.clubId,
+			};
 
-      RegistrationDataService.create(data)
-        .then((response) => {
-          this.registration.id = response.data.id;
-          console.log(response.data);
-          this.submitted = true;
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+			RegistrationDataService.create(data)
+				.then((response) => {
+					this.registration.id = response.data.id;
+					console.log(response.data);
+					this.submitted = true;
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    newRegistration() {
-      this.submitted = false;
-      this.registration = {};
-    },
-  },
+		newRegistration() {
+			this.submitted = false;
+			this.registration = {};
+		},
+	},
 };
 </script>
 

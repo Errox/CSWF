@@ -49,48 +49,48 @@
 </template>
 
 <script>
-    import User from '../../models/user';
+import User from "../../models/user";
 
-    export default {
-        name: 'Register',
-        data() {
-            return {
-                user: new User('', '', '', '', ''),
-                submitted: false,
-                successful: false,
-                message: ''
-            };
-        },
-        computed: {
-            loggedIn() {
-                return this.$store.state.auth.status.loggedIn;
-            }
-        },
-        mounted() {
-            if (this.loggedIn) {
-                this.$router.push('/profile');
-            }
-        },
-        methods: {
-            handleRegister() {
-                this.message = '';
-                this.submitted = true;
-                    this.$store.dispatch('auth/register', this.user).then(
-                        data => {
-                            this.message = data.message;
-                            this.successful = true;
-                        },
-                        error => {
-                            this.message =
+export default {
+	name: "Register",
+	data() {
+		return {
+			user: new User("", "", "", "", ""),
+			submitted: false,
+			successful: false,
+			message: "",
+		};
+	},
+	computed: {
+		loggedIn() {
+			return this.$store.state.auth.status.loggedIn;
+		},
+	},
+	mounted() {
+		if (this.loggedIn) {
+			this.$router.push("/profile");
+		}
+	},
+	methods: {
+		handleRegister() {
+			this.message = "";
+			this.submitted = true;
+			this.$store.dispatch("auth/register", this.user).then(
+				(data) => {
+					this.message = data.message;
+					this.successful = true;
+				},
+				(error) => {
+					this.message =
                                 (error.response && error.response.data) ||
                                 error.message ||
                                 error.toString();
-                            this.successful = false;
-                        }
-                    );
-            }
-        }
-    };
+					this.successful = false;
+				},
+			);
+		},
+	},
+};
 </script>
 
 <style scoped>

@@ -63,69 +63,69 @@
 import UserDataService from "../../services/UserDataService";
 
 export default {
-  name: "user",
-  data() {
-    return {
-      currentUser: null,
-      message: "",
-    };
-  },
-  methods: {
-    getUser(id) {
-      UserDataService.get(id)
-        .then((response) => {
-          this.currentUser = response.data;
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+	name: "user",
+	data() {
+		return {
+			currentUser: null,
+			message: "",
+		};
+	},
+	methods: {
+		getUser(id) {
+			UserDataService.get(id)
+				.then((response) => {
+					this.currentUser = response.data;
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    updateOpenForRegistration() {
-      var data = {
-        name: this.user.name,
-        surName: this.user.surName,
-        email: this.user.email,
-        password: this.user.password,
-        dateOfBirth: this.user.dateOfBirth
-      };
+		updateOpenForRegistration() {
+			const data = {
+				name: this.user.name,
+				surName: this.user.surName,
+				email: this.user.email,
+				password: this.user.password,
+				dateOfBirth: this.user.dateOfBirth,
+			};
 
-      UserDataService.update(this.currentUser.id, data)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+			UserDataService.update(this.currentUser.id, data)
+				.then((response) => {
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    updateUser() {
-      UserDataService.update(this.currentUser.id, this.currentUser)
-        .then((response) => {
-          console.log(response.data);
-          this.message = "The user was updated successfully!";
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		updateUser() {
+			UserDataService.update(this.currentUser.id, this.currentUser)
+				.then((response) => {
+					console.log(response.data);
+					this.message = "The user was updated successfully!";
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    deleteUser() {
-      UserDataService.delete(this.currentUser.id)
-        .then((response) => {
-          console.log(response.data);
-          this.$router.push({ name: "users" });
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-  },
-  mounted() {
-    this.message = "";
-    this.getUser(this.$route.params.id);
-  },
+		deleteUser() {
+			UserDataService.delete(this.currentUser.id)
+				.then((response) => {
+					console.log(response.data);
+					this.$router.push({name: "users"});
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
+	},
+	mounted() {
+		this.message = "";
+		this.getUser(this.$route.params.id);
+	},
 };
 </script>
 

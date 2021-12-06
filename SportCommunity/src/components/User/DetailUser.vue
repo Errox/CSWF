@@ -40,7 +40,7 @@
           required
         ></v-date-picker>
       </v-row>
-      
+
     </v-form>
 
     <p class="mt-3">{{ message }}</p>
@@ -55,29 +55,28 @@
 import UserDataService from "../../services/UserDataService";
 
 export default {
-  name: "user",
-  data() {
-    return {
-      currentUser: null,
-      message: "",
-    };
-  },
-  methods: {
-    getUser(id) {
-      UserDataService.get(id)
-        .then((response) => {
-          this.currentUser = response.data;
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-  },
-  mounted() {
-    this.message = "";
-    this.getUser(this.$route.params.id);
-  },
+	name: "user",
+	data() {
+		return {
+			currentUser: null,
+			message: "",
+		};
+	},
+	methods: {
+		getUser(id) {
+			UserDataService.get(id)
+				.then((response) => {
+					this.currentUser = response.data;
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
+	},
+	mounted() {
+		this.message = "";
+		this.getUser(this.$route.params.id);
+	},
 };
 </script>
 
