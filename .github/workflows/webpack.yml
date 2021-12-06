@@ -27,7 +27,6 @@ jobs:
         cd SportCommunity
         yarn --version
         yarn install --frozen-lockfile
-        yarn test:unit
         
         
     - name: Deploy to Heroku
@@ -56,6 +55,7 @@ jobs:
     - name: Build
       run: |
             cd ServerApi
+            yarn test
       
     - name: Deploy to Heroku
       uses: AkhileshNS/heroku-deploy@v3.12.12
