@@ -17,7 +17,7 @@
           label="Password"
           required
         ></v-text-field>
-      
+
       </v-form>
         <div class="form-group">
           <button class="btn btn-primary btn-block" :disabled="loading">
@@ -34,51 +34,51 @@
 </template>
 
 <script>
-import User from '../../models/user';
+import User from "../../models/user";
 
 export default {
-  name: 'Login',
-  data() {
-    return {
-      user: new User('', ''),
-      loading: false,
-      message: ''
-    };
-  },
-  computed: {
-    loggedIn() {
-      return this.$store.state.auth.status.loggedIn;
-    }
-  },
-  created() {
-    if (this.loggedIn) {
-      this.$router.push('/profile');
-    }
-  },
-  methods: {
-    handleLogin() {
-      this.loading = true;
-      console.log('check email / password')
-      if (this.user.email && this.user.password) {
-        console.log(this.$store);
-        this.$store.dispatch('auth/login', this.user).then(
-          () => {
-            this.loading = false;
-            this.$router.push('/profile');
-          },
-          error => {
-            this.loading = false;
-            this.message =
+	name: "Login",
+	data() {
+		return {
+			user: new User("", ""),
+			loading: false,
+			message: "",
+		};
+	},
+	computed: {
+		loggedIn() {
+			return this.$store.state.auth.status.loggedIn;
+		},
+	},
+	created() {
+		if (this.loggedIn) {
+			this.$router.push("/profile");
+		}
+	},
+	methods: {
+		handleLogin() {
+			this.loading = true;
+			console.log("check email / password");
+			if (this.user.email && this.user.password) {
+				console.log(this.$store);
+				this.$store.dispatch("auth/login", this.user).then(
+					() => {
+						this.loading = false;
+						this.$router.push("/profile");
+					},
+					(error) => {
+						this.loading = false;
+						this.message =
               (error.response && error.response.data) ||
               error.message ||
               error.toString();
-          }
-        );
-      }else{
-        this.loading = false;
-      }
-    }
-  }
+					},
+				);
+			} else {
+				this.loading = false;
+			}
+		},
+	},
 };
 </script>
 

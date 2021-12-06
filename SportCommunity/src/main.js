@@ -1,26 +1,24 @@
-import Vue from 'vue'
-import Vuex from 'vuex';
-import App from './App.vue'
-import router from './router/router'
-import vuetify from './plugins/vuetify'
-import { auth } from './store/auth.module';
+import Vue from "vue";
+import Vuex from "vuex";
+import App from "./App.vue";
+import router from "./router/router";
+import vuetify from "./plugins/vuetify";
+import {auth} from "./store/auth.module";
+/* eslint-disable */
 
-
-Vue.config.productionTip = false
-console.log('main.js')
+Vue.config.productionTip = false;
 
 Vue.use(Vuex);
-console.log('store vuex auth');
 
 const store = new Vuex.Store({
-  modules: {
-    auth
-  }
+	modules: {
+		auth,
+	},
 });
 
 new Vue({
-  router,
-  vuetify,
-  store: store,
-  render: h => h(App)
-}).$mount('#app')
+	router,
+	vuetify,
+	store: store,
+	render: (h) => h(App),
+}).$mount("#app");

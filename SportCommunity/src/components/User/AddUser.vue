@@ -35,7 +35,7 @@
           name="password"
           required
         ></v-text-field>
-        
+
         Date of birth
         <datepicker v-model="user.dateOfBirth"
           :rules="[(v) => !!v || 'dateOfBirth is required']"
@@ -66,51 +66,50 @@
 
 <script>
 import UserDataService from "../../services/UserDataService";
-import Datepicker from 'vuejs-datepicker';
+import Datepicker from "vuejs-datepicker";
 
 export default {
-  name: "add-user",
-  data() {
-    return {
-      user: {
-        id: null,
-        name: "",
-        surName: "",
-        email: "",
-        password: "",
-        dateOfBirth: "",
-      },
-      submitted: false,
-    };
-  },
-  methods: {
-    saveUser() {
-      var data = {
-        name: this.user.name,
-        surName: this.user.surName,
-        email: this.user.email,
-        password: this.user.password,
-        dateOfBirth: this.user.dateOfBirth
-      };
+	name: "add-user",
+	data() {
+		return {
+			user: {
+				id: null,
+				name: "",
+				surName: "",
+				email: "",
+				password: "",
+				dateOfBirth: "",
+			},
+			submitted: false,
+		};
+	},
+	methods: {
+		saveUser() {
+			const data = {
+				name: this.user.name,
+				surName: this.user.surName,
+				email: this.user.email,
+				password: this.user.password,
+				dateOfBirth: this.user.dateOfBirth,
+			};
 
-      UserDataService.create(data)
-        .then((response) => {
-          this.user.id = response.data.id;
-          console.log(response.data);
-          this.submitted = true;
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+			UserDataService.create(data)
+				.then((response) => {
+					this.user.id = response.data.id;
+					this.submitted = true;
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    newUser() {
-      this.submitted = false;
-      this.user = {};
-    },
-  }, components: {
-    Datepicker
-  }
+		newUser() {
+			this.submitted = false;
+			this.user = {};
+		},
+	}, components: {
+		Datepicker,
+	},
 };
 </script>
 

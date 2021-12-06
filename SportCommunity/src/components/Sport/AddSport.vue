@@ -51,42 +51,42 @@
 import SportDataService from "../../services/SportDataService";
 
 export default {
-  name: "add-sport",
-  data() {
-    return {
-      sport: {
-        id: null,
-        title: "",
-        description: "",
-        openForRegistration: false,
-      },
-      submitted: false,
-    };
-  },
-  methods: {
-    saveSport() {
-      var data = {
-        title: this.sport.title,
-        description: this.sport.description,
-        wikiLink: this.sport.wikiLink
-      };
+	name: "add-sport",
+	data() {
+		return {
+			sport: {
+				id: null,
+				title: "",
+				description: "",
+				openForRegistration: false,
+			},
+			submitted: false,
+		};
+	},
+	methods: {
+		saveSport() {
+			const data = {
+				title: this.sport.title,
+				description: this.sport.description,
+				wikiLink: this.sport.wikiLink,
+			};
 
-      SportDataService.create(data)
-        .then((response) => {
-          this.sport.id = response.data.id;
-          console.log(response.data);
-          this.submitted = true;
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+			SportDataService.create(data)
+				.then((response) => {
+					this.sport.id = response.data.id;
+					console.log(response.data);
+					this.submitted = true;
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    newSport() {
-      this.submitted = false;
-      this.sport = {};
-    },
-  },
+		newSport() {
+			this.submitted = false;
+			this.sport = {};
+		},
+	},
 };
 </script>
 

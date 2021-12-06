@@ -26,7 +26,7 @@
       <div v-if="currentUser" class="navbar-nav ml-auto">
         <li class="nav-item">
           <router-link to="/profile" class="nav-link">
-            
+
             {{ currentUser.username }}
           </router-link>
         </li>
@@ -47,30 +47,30 @@
 <script>
 
 export default {
-  name: 'App',
-  computed: {
-    currentUser() {
-      console.log(this.$store)
-      if(this.$store.state.auth.user){
-        return this.$store.state.auth.user
-      }
-      return null;
-    }
-  },
-  methods: {
-    logOut() {
-      this.$store.dispatch('auth/logout');
-      this.$router.push('/login');
-    },
-    click(url){
-      var tmp = this.$route.fullPath.replace(/[^a-zA-Z0-9]/g, '');
-      
-      console.log(tmp + " : " + url);
-      if(url != tmp){
-        this.$router.push({ name: url });
-      }
-    }
-  },
-    
+	name: "App",
+	computed: {
+		currentUser() {
+			console.log(this.$store);
+			if (this.$store.state.auth.user) {
+				return this.$store.state.auth.user;
+			}
+			return null;
+		},
+	},
+	methods: {
+		logOut() {
+			this.$store.dispatch("auth/logout");
+			this.$router.push("/login");
+		},
+		click(url) {
+			const tmp = this.$route.fullPath.replace(/[^a-zA-Z0-9]/g, "");
+
+			console.log(tmp + " : " + url);
+			if (url != tmp) {
+				this.$router.push({name: url});
+			}
+		},
+	},
+
 };
 </script>

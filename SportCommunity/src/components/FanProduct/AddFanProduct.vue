@@ -59,44 +59,44 @@
 import FanProductDataService from "../../services/FanProductDataService";
 
 export default {
-  name: "add-fanProduct",
-  data() {
-    return {
-      fanProduct: {
-        id: null,
-        productTitle: "",
-        description: "",
-        buyLink: "",
-        price: 0
-      },
-      submitted: false,
-    };
-  },
-  methods: {
-    saveFanProduct() {
-      var data = {
-        productTitle: this.fanProduct.productTitle,
-        description: this.fanProduct.description,
-        buyLink: this.fanProduct.buyLink,
-        price: this.fanProduct.price
-      };
+	name: "add-fanProduct",
+	data() {
+		return {
+			fanProduct: {
+				id: null,
+				productTitle: "",
+				description: "",
+				buyLink: "",
+				price: 0,
+			},
+			submitted: false,
+		};
+	},
+	methods: {
+		saveFanProduct() {
+			const data = {
+				productTitle: this.fanProduct.productTitle,
+				description: this.fanProduct.description,
+				buyLink: this.fanProduct.buyLink,
+				price: this.fanProduct.price,
+			};
 
-      FanProductDataService.create(data)
-        .then((response) => {
-          this.fanProduct.id = response.data.id;
-          console.log(response.data);
-          this.submitted = true;
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+			FanProductDataService.create(data)
+				.then((response) => {
+					this.fanProduct.id = response.data.id;
+					console.log(response.data);
+					this.submitted = true;
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    newFanProduct() {
-      this.submitted = false;
-      this.fanProduct = {};
-    },
-  },
+		newFanProduct() {
+			this.submitted = false;
+			this.fanProduct = {};
+		},
+	},
 };
 </script>
 

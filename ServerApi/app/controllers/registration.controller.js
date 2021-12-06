@@ -6,7 +6,6 @@ const Registration = db.registrations;
 
 // Create and Save a new Registration
 exports.create = (req, res) => {
-  console.log(req);
   // Validate request
   if (!req.body.userId && !req.body.sportId && !req.body.clubId) {
     res.status(400).send({ message: "Content can not be empty!" });

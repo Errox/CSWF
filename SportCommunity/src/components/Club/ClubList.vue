@@ -37,88 +37,88 @@
 <script>
 import ClubDataService from "../../services/ClubDataService";
 export default {
-  name: "clubs-list",
-  data() {
-    return {
-      clubs: [],
-      title: "",
-      headers: [
-        { text: "name", value: "name", align: "start", sortable: false },
-        { text: "city", value: "city", sortable: false },
-        { text: "streetName", value: "streetName", sortable: false },
-        { text: "URL", value: "URL", sortable: false },
-        { text: "Acties", value: "actions", sortable: false },
-      ],
-    };
-  },
-  methods: {
-    retrieveClubs() {
-      ClubDataService.getAll()
-        .then((response) => {
-          this.clubs = response.data.map(this.getDisplayClub);
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+	name: "clubs-list",
+	data() {
+		return {
+			clubs: [],
+			title: "",
+			headers: [
+				{text: "name", value: "name", align: "start", sortable: false},
+				{text: "city", value: "city", sortable: false},
+				{text: "streetName", value: "streetName", sortable: false},
+				{text: "URL", value: "URL", sortable: false},
+				{text: "Acties", value: "actions", sortable: false},
+			],
+		};
+	},
+	methods: {
+		retrieveClubs() {
+			ClubDataService.getAll()
+				.then((response) => {
+					this.clubs = response.data.map(this.getDisplayClub);
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    refreshList() {
-      this.retrieveClubs();
-    },
+		refreshList() {
+			this.retrieveClubs();
+		},
 
-    removeAllClubs() {
-      ClubDataService.deleteAll()
-        .then((response) => {
-          console.log(response.data);
-          this.refreshList();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		removeAllClubs() {
+			ClubDataService.deleteAll()
+				.then((response) => {
+					console.log(response.data);
+					this.refreshList();
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    searchTitle() {
-      ClubDataService.findByTitle(this.title)
-        .then((response) => {
-          this.clubs = response.data.map(this.getDisplayClub);
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		searchTitle() {
+			ClubDataService.findByTitle(this.title)
+				.then((response) => {
+					this.clubs = response.data.map(this.getDisplayClub);
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    editClub(id) {
-      this.$router.push({ path: '/clubs/'+id });
-    },
+		editClub(id) {
+			this.$router.push({path: "/clubs/"+id});
+		},
 
-    deleteClub(id) {
-      ClubDataService.delete(id)
-        .then(() => {
-          this.refreshList();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		deleteClub(id) {
+			ClubDataService.delete(id)
+				.then(() => {
+					this.refreshList();
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    getDisplayClub(club) {
-      return {
-        id: club.id,
-        name: club.name,
-        city: club.city,
-        streetName: club.streetName,
-        URL: club.URL
-      };
-    },
-    click(url){
-      this.$router.push({ name: url });
-    },
-  },
-  mounted() {
-    this.retrieveClubs();
-  },
+		getDisplayClub(club) {
+			return {
+				id: club.id,
+				name: club.name,
+				city: club.city,
+				streetName: club.streetName,
+				URL: club.URL,
+			};
+		},
+		click(url) {
+			this.$router.push({name: url});
+		},
+	},
+	mounted() {
+		this.retrieveClubs();
+	},
 };
 </script>
 

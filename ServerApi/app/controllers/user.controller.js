@@ -168,7 +168,6 @@ exports.signup = (req, res) => {
   
   user.save((err, user) => {
     if (err) {
-      console.log(err.message);
       if(err.message.includes("E11000 duplicate key error collection: myFirstDatabase.users index: email_1 dup key"))
         res.status(500).send({ message: req.body.email + " is already registered. Please use another one."})
       else

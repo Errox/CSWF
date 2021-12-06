@@ -31,7 +31,7 @@
         label="URL"
         required
       ></v-text-field>
-      
+
       </v-form>
 
       <v-btn color="primary" class="mt-3" @click="saveClub">Submit</v-btn>
@@ -59,44 +59,44 @@
 import ClubDataService from "../../services/ClubDataService";
 
 export default {
-  name: "add-club",
-  data() {
-    return {
-      club: {
-        id: null,
-        name: "",
-        city: "",
-        streetName: "",
-        URL: "",
-      },
-      submitted: false,
-    };
-  },
-  methods: {
-    saveClub() {
-      var data = {
-        name: this.club.name,
-        city: this.club.city,
-        streetName: this.club.streetName,
-        URL: this.club.URL
-      };
+	name: "add-club",
+	data() {
+		return {
+			club: {
+				id: null,
+				name: "",
+				city: "",
+				streetName: "",
+				URL: "",
+			},
+			submitted: false,
+		};
+	},
+	methods: {
+		saveClub() {
+			const data = {
+				name: this.club.name,
+				city: this.club.city,
+				streetName: this.club.streetName,
+				URL: this.club.URL,
+			};
 
-      ClubDataService.create(data)
-        .then((response) => {
-          this.club.id = response.data.id;
-          console.log(response.data);
-          this.submitted = true;
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+			ClubDataService.create(data)
+				.then((response) => {
+					this.club.id = response.data.id;
+					console.log(response.data);
+					this.submitted = true;
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    newClub() {
-      this.submitted = false;
-      this.club = {};
-    },
-  },
+		newClub() {
+			this.submitted = false;
+			this.club = {};
+		},
+	},
 };
 </script>
 

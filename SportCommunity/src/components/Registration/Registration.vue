@@ -47,68 +47,68 @@
 import RegistrationDataService from "../../services/RegistrationDataService";
 
 export default {
-  name: "registration",
-  data() {
-    return {
-      currentRegistration: null,
-      message: "",
-    };
-  },
-  methods: {
-    getRegistration(id) {
-      RegistrationDataService.get(id)
-        .then((response) => {
-          this.currentRegistration = response.data;
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+	name: "registration",
+	data() {
+		return {
+			currentRegistration: null,
+			message: "",
+		};
+	},
+	methods: {
+		getRegistration(id) {
+			RegistrationDataService.get(id)
+				.then((response) => {
+					this.currentRegistration = response.data;
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    updateOpenForRegistration() {
-      var data = {
-        id: this.currentRegistration.id,
-        userId: this.currentRegistration.userId,
-        sportId: this.currentRegistration.sportId,
-        clubId : this.currentRegistration.clubId,
-      };
+		updateOpenForRegistration() {
+			const data = {
+				id: this.currentRegistration.id,
+				userId: this.currentRegistration.userId,
+				sportId: this.currentRegistration.sportId,
+				clubId: this.currentRegistration.clubId,
+			};
 
-      RegistrationDataService.update(this.currentRegistration.id, data)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+			RegistrationDataService.update(this.currentRegistration.id, data)
+				.then((response) => {
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    updateRegistration() {
-      RegistrationDataService.update(this.currentRegistration.id, this.currentRegistration)
-        .then((response) => {
-          console.log(response.data);
-          this.message = "The registration was updated successfully!";
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		updateRegistration() {
+			RegistrationDataService.update(this.currentRegistration.id, this.currentRegistration)
+				.then((response) => {
+					console.log(response.data);
+					this.message = "The registration was updated successfully!";
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    deleteRegistration() {
-      RegistrationDataService.delete(this.currentRegistration.id)
-        .then((response) => {
-          console.log(response.data);
-          this.$router.push({ name: "registrations" });
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-  },
-  mounted() {
-    this.message = "";
-    this.getRegistration(this.$route.params.id);
-  },
+		deleteRegistration() {
+			RegistrationDataService.delete(this.currentRegistration.id)
+				.then((response) => {
+					console.log(response.data);
+					this.$router.push({name: "registrations"});
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
+	},
+	mounted() {
+		this.message = "";
+		this.getRegistration(this.$route.params.id);
+	},
 };
 </script>
 

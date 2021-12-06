@@ -45,29 +45,29 @@
 import FanProductDataService from "../../services/FanProductDataService";
 
 export default {
-  name: "fanProduct",
-  data() {
-    return {
-      currentFanProduct: null,
-      message: "",
-    };
-  },
-  methods: {
-    getFanProduct(id) {
-      FanProductDataService.get(id)
-        .then((response) => {
-          this.currentFanProduct = response.data;
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-  },
-  mounted() {
-    this.message = "";
-    this.getFanProduct(this.$route.params.id);
-  },
+	name: "fanProduct",
+	data() {
+		return {
+			currentFanProduct: null,
+			message: "",
+		};
+	},
+	methods: {
+		getFanProduct(id) {
+			FanProductDataService.get(id)
+				.then((response) => {
+					this.currentFanProduct = response.data;
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
+	},
+	mounted() {
+		this.message = "";
+		this.getFanProduct(this.$route.params.id);
+	},
 };
 </script>
 

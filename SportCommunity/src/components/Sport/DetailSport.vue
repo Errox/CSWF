@@ -41,29 +41,29 @@
 import SportDataService from "../../services/SportDataService";
 
 export default {
-  name: "sport",
-  data() {
-    return {
-      currentSport: null,
-      message: "",
-    };
-  },
-  methods: {
-    getSport(id) {
-      SportDataService.get(id)
-        .then((response) => {
-          this.currentSport = response.data;
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-  },
-  mounted() {
-    this.message = "";
-    this.getSport(this.$route.params.id);
-  },
+	name: "sport",
+	data() {
+		return {
+			currentSport: null,
+			message: "",
+		};
+	},
+	methods: {
+		getSport(id) {
+			SportDataService.get(id)
+				.then((response) => {
+					this.currentSport = response.data;
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
+	},
+	mounted() {
+		this.message = "";
+		this.getSport(this.$route.params.id);
+	},
 };
 </script>
 

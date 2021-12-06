@@ -37,90 +37,89 @@
 <script>
 import UserDataService from "../../services/UserDataService";
 export default {
-  name: "users-list",
-  data() {
-    return {
-      users: [],
-      title: "",
-      headers: [
-        { text: "name", value: "name", align: "start", sortable: false },
-        { text: "surName", value: "surName", sortable: false },
-        { text: "email", value: "email", sortable: false },
-        { text: "password", value: "password", sortable: false },
-        { text: "dateOfBirth", value: "dateOfBirth", sortable: false },
-        { text: "Acties", value: "actions", sortable: false },
-      ],
-    };
-  },
-  methods: {
-    retrieveUsers() {
-      UserDataService.getAll()
-        .then((response) => {
-          this.users = response.data.map(this.getDisplayUser);
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+	name: "users-list",
+	data() {
+		return {
+			users: [],
+			title: "",
+			headers: [
+				{text: "name", value: "name", align: "start", sortable: false},
+				{text: "surName", value: "surName", sortable: false},
+				{text: "email", value: "email", sortable: false},
+				{text: "dateOfBirth", value: "dateOfBirth", sortable: false},
+				{text: "Acties", value: "actions", sortable: false},
+			],
+		};
+	},
+	methods: {
+		retrieveUsers() {
+			UserDataService.getAll()
+				.then((response) => {
+					this.users = response.data.map(this.getDisplayUser);
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    refreshList() {
-      this.retrieveUsers();
-    },
+		refreshList() {
+			this.retrieveUsers();
+		},
 
-    removeAllUsers() {
-      UserDataService.deleteAll()
-        .then((response) => {
-          console.log(response.data);
-          this.refreshList();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		removeAllUsers() {
+			UserDataService.deleteAll()
+				.then((response) => {
+					console.log(response.data);
+					this.refreshList();
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    searchTitle() {
-      UserDataService.findByTitle(this.title)
-        .then((response) => {
-          this.users = response.data.map(this.getDisplayUser);
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		searchTitle() {
+			UserDataService.findByTitle(this.title)
+				.then((response) => {
+					this.users = response.data.map(this.getDisplayUser);
+					console.log(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    editUser(id) {
-      this.$router.push({ path: '/users/'+id });
-    },
+		editUser(id) {
+			this.$router.push({path: "/users/"+id});
+		},
 
-    deleteUser(id) {
-      UserDataService.delete(id)
-        .then(() => {
-          this.refreshList();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+		deleteUser(id) {
+			UserDataService.delete(id)
+				.then(() => {
+					this.refreshList();
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		},
 
-    getDisplayUser(user) {
-      return {
-        id: user.id,
-        name: user.name,
-        surName: user.surName,
-        email: user.email,
-        password: user.password,
-        dateOfBirth: user.dateOfBirth
-      };
-    },
-    click(url){
-      this.$router.push({ name: url });
-    },
-  },
-  mounted() {
-    this.retrieveUsers();
-  },
+		getDisplayUser(user) {
+			return {
+				id: user.id,
+				name: user.name,
+				surName: user.surName,
+				email: user.email,
+				password: user.password,
+				dateOfBirth: user.dateOfBirth,
+			};
+		},
+		click(url) {
+			this.$router.push({name: url});
+		},
+	},
+	mounted() {
+		this.retrieveUsers();
+	},
 };
 </script>
 

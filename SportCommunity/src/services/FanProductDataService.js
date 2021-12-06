@@ -3,29 +3,29 @@ import authHeader from "./auth-header";
 
 
 class FanProductDataService {
-  getAll() {
-    return http.get("/fanProducts",  { headers: authHeader() });
-  }
+	getAll() {
+		return http.get("/fanProducts", {headers: authHeader()});
+	}
 
-  get(id) {
-    return http.get(`/fanProducts/${id}`,  { headers: authHeader() });
-  }
+	get(id) {
+		return http.get(`/fanProducts/${id}`, {headers: authHeader()});
+	}
 
-  create(data) {
-    return http.post("/fanProducts", data,  { headers: authHeader() });
-  }
+	create(data) {
+		return http.post("/fanProducts", data, {headers: authHeader()});
+	}
 
-  update(id, data) {
-    return http.put(`/fanProducts/${id}`, data,  { headers: authHeader() });
-  }
+	update(id, data) {
+		return http.put(`/fanProducts/${id}`, data, {headers: authHeader()});
+	}
 
-  delete(id) {
-    return http.delete(`/fanProducts/${id}`,  { headers: authHeader() });
-  }
+	delete(id) {
+		return http.delete(`/fanProducts/${id}`, {headers: authHeader()});
+	}
 
-  findByTitle(title) {
-    return http.get(`/fanProducts?title=${title}`,  { headers: authHeader() });
-  }
+	findByTitle(title) {
+		return http.get(`/fanProducts?title=${title}`, {headers: authHeader()});
+	}
 }
 
 export default new FanProductDataService();
