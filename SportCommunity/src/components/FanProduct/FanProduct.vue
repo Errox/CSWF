@@ -71,6 +71,7 @@ export default {
 				})
 				.catch((e) => {
 					console.log(e);
+					this.message = e.response.message;
 				});
 		},
 
@@ -89,6 +90,7 @@ export default {
 				})
 				.catch((e) => {
 					console.log(e);
+					this.message = e.response.message;
 				});
 		},
 
@@ -100,6 +102,7 @@ export default {
 				})
 				.catch((e) => {
 					console.log(e);
+					this.message = e.response.message;
 				});
 		},
 
@@ -111,6 +114,7 @@ export default {
 				})
 				.catch((e) => {
 					console.log(e);
+					this.message = e.response.message;
 				});
 		},
 	},

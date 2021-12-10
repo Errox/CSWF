@@ -31,10 +31,11 @@
           label="price"
           required
         ></v-text-field>
-
+        
       </v-form>
 
       <v-btn color="primary" class="mt-3" @click="saveFanProduct">Submit</v-btn>
+      <p class="mt-3">{{ message }}</p>
     </div>
 
     <div v-else>
@@ -46,7 +47,6 @@
         <v-card-subtitle>
           Click the button to add new FanProduct.
         </v-card-subtitle>
-
         <v-card-actions>
           <v-btn color="success" @click="newFanProduct">Add</v-btn>
         </v-card-actions>
@@ -62,6 +62,7 @@ export default {
 	name: "add-fanProduct",
 	data() {
 		return {
+      message: "",
 			fanProduct: {
 				id: null,
 				productTitle: "",
@@ -79,6 +80,7 @@ export default {
 				description: this.fanProduct.description,
 				buyLink: this.fanProduct.buyLink,
 				price: this.fanProduct.price,
+        clubId: this.$route.params.clubId
 			};
 
 			FanProductDataService.create(data)
@@ -88,6 +90,7 @@ export default {
 					this.submitted = true;
 				})
 				.catch((e) => {
+          this.message = e.response.data;
 					console.log(e);
 				});
 		},
@@ -97,6 +100,9 @@ export default {
 			this.fanProduct = {};
 		},
 	},
+  mounted() {
+    this.message = "";
+  },
 };
 </script>
 

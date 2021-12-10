@@ -1,5 +1,5 @@
-# sportschool
-
+# SportCommunity
+Sport Community is een platform om gemakkelijk clubs en sporten te delen met anderen!
 ## Project setup
 ```
 yarn install
@@ -19,6 +19,3 @@ yarn build
 ```
 yarn lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

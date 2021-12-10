@@ -27,6 +27,9 @@
       </v-form>
 
       <v-btn color="primary" class="mt-3" @click="saveSport">Submit</v-btn>
+    
+      
+      <p class="mt-3">{{ message }}</p>
     </div>
 
     <div v-else>
@@ -42,6 +45,7 @@
         <v-card-actions>
           <v-btn color="success" @click="newSport">Add</v-btn>
         </v-card-actions>
+        
       </v-card>
     </div>
   </div>
@@ -54,6 +58,7 @@ export default {
 	name: "add-sport",
 	data() {
 		return {
+      message: "",
 			sport: {
 				id: null,
 				title: "",
@@ -69,6 +74,7 @@ export default {
 				title: this.sport.title,
 				description: this.sport.description,
 				wikiLink: this.sport.wikiLink,
+        clubId: this.$route.params.clubId
 			};
 
 			SportDataService.create(data)
@@ -78,6 +84,7 @@ export default {
 					this.submitted = true;
 				})
 				.catch((e) => {
+          this.message = e.response.data;
 					console.log(e);
 				});
 		},
@@ -87,6 +94,9 @@ export default {
 			this.sport = {};
 		},
 	},
+  mounted() {
+    this.message = "";
+  },
 };
 </script>
 
