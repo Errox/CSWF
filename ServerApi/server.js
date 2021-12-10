@@ -20,7 +20,9 @@ const db = require("./app/models");
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    //useCreateIndex: true Unable to test if this affects anything. 
+
   })
   .then(() => {
     console.log("Connected to the database!");
