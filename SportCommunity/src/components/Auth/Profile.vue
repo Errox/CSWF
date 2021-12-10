@@ -43,6 +43,8 @@
           <button type="button" class="btn btn-light" @click="click('fanProducts')"> Alle Fan producten </button>
           <br> <br>
           <button type="button" class="btn btn-light" @click="click('users')"> Alle Users </button>
+          <br> <br>
+          <button type="button" class="btn btn-light" @click="click('clubs')"> Alle Clubs </button>
       </div>
     </div>
 

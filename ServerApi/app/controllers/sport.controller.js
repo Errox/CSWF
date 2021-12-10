@@ -154,6 +154,7 @@ exports.update = (req, res) => {
   });
 
 
+  console.log(req.body);
   if (!req.body.clubId) {
     res.status(400).send({
       message: "Missing clubId!"
@@ -209,14 +210,21 @@ exports.update = (req, res) => {
 // Delete a Sport with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-  if (!req.body.clubId) {
+  if (!req.body.id) {
     res.status(400).send({
       message: "Missing clubId!"
     });
     return;
   } else {
+    const id = req.params.id;
+    var tempToken = req.headers.authorization;
+    const payload = jwt.verify(tempToken.split(" ")[1], config.secret, {
+      ignoreExpiration: true
+    });
+  
+  
     Club.findOne({
-        _id: mongoose.Types.ObjectId(req.body.clubId)
+        _id: mongoose.Types.ObjectId(req.body.id)
       })
       .then(data => {
         if (!data)
@@ -258,7 +266,7 @@ exports.delete = (req, res) => {
         res
           .status(500)
           .send({
-            message: "Error retrieving Club with id=" + req.body.clubId
+            message: "Error retrieving Club with id=" + req.body.id
           });
       });
   }

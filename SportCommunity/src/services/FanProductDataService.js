@@ -19,8 +19,9 @@ class FanProductDataService {
 		return http.put(`/fanProducts/${id}`, data, {headers: authHeader()});
 	}
 
-	delete(id) {
-		return http.delete(`/fanProducts/${id}`, {headers: authHeader()});
+	delete(id, data) {
+		console.log(authHeader())
+		return http.delete(`/fanProducts/${id}`, {data: data, headers: authHeader()});
 	}
 
 	findByTitle(title) {

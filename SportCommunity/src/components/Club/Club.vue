@@ -4,19 +4,18 @@
 			<p class="headline"><strong>Club</strong> {{currentClub.name}} </p>
 			<div v-if="userIsOwner">
 				<v-form ref="form" lazy-validation>
-					<v-text-field data-cy="nameClub-input" v-model="currentClub.name"
-						:rules="[(v) => !!v || 'name is required']" label="name" required>
+					<v-text-field data-cy="nameClub-input" v-model="currentClub.name" :rules="nameRules" label="name"
+						required>
 					</v-text-field>
 
-					<v-text-field data-cy="city-input" v-model="currentClub.city"
-						:rules="[(v) => !!v || 'city is required']" label="city" required>
+					<v-text-field data-cy="city-input" v-model="currentClub.city" :rules="cityRules" label="city"
+						required>
 					</v-text-field>
 
-					<v-text-field data-cy="streetname-input" v-model="currentClub.streetName"
-						:rules="[(v) => !!v || 'streetName is required']" label="streetName" required></v-text-field>
+					<v-text-field data-cy="streetname-input" v-model="currentClub.streetName" :rules="streetNameRules"
+						label="streetName" required></v-text-field>
 
-					<v-text-field data-cy="URL-input" v-model="currentClub.URL"
-						:rules="[(v) => !!v || 'URL is required']" label="URL" required>
+					<v-text-field data-cy="URL-input" v-model="currentClub.URL" :rules="URLRules" label="URL" required>
 					</v-text-field>
 
 					<v-divider class="my-5">
@@ -103,6 +102,7 @@
 		},
 		data() {
 			return {
+				valid: true,
 				currentClub: null,
 				userIsOwner: false,
 				fanProducts: [],
@@ -157,6 +157,30 @@
 						sortable: false
 					},
 				],
+				nameRules: [
+					v => !!v || 'Name is Required!',
+					v => v.length <= 150 || 'Name must be less then 150 characters.',
+					v => v.length >= 2 || 'Name must be at least 2 characters long'
+				],
+				cityRules: [
+					v => !!v || 'city is Required!',
+					v => v.length <= 150 || 'city must be less then 150 characters.',
+					v => v.length >= 2 || 'city must be at least 2 characters long'
+				],
+				streetNameRules: [
+					v => !!v || 'Street Name is required!',
+					v => v.length <= 150 || 'Street Name must be less then 150 characters long.',
+					v => v.length >= 2 || 'Street Name must be at least 2 characters long',
+					v => /^(.+)\s(\S+)$/.test(v) || 'StreetName must be valid. (A streetname with number)',
+				],
+				URLRules: [
+					v => !!v || 'URL is required',
+					v => v.length <= 150 || 'URL must be less then 150 characters long.',
+					v => v.length >= 2 || 'URL must be at least 2 characters long',
+					v =>
+					/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/
+					.test(v) || 'URL must be valid. (example: https://deStoep.nl)'
+				],
 			};
 		},
 		methods: {
@@ -180,26 +204,26 @@
 					});
 			},
 			updateClub() {
-				ClubDataService.update(this.currentClub.id, this.currentClub)
-					.then((response) => {
-						console.log(response.data);
-						this.message = "The club was updated successfully!";
-					})
-					.catch((e) => {
-						this.message = e.response.data;
-					});
+				this.$refs.form.validate()
+				if (this.valid) {
+					ClubDataService.update(this.currentClub.id, this.currentClub)
+						.then((response) => {
+							this.message = "The club was updated successfully!";
+						})
+						.catch((e) => {
+							this.message = e.response.data;
+						});
+				}
 			},
 
 			deleteClub() {
 				ClubDataService.delete(this.currentClub.id)
 					.then((response) => {
-						console.log(response.data);
 						this.$router.push({
 							name: "clubs"
 						});
 					})
 					.catch((e) => {
-						console.log(e);
 						this.message = e.response.data;
 					});
 			},
@@ -213,12 +237,15 @@
 			},
 			editFanProduct(id) {
 				this.$router.push({
-					path: "/fanProducts/" + id
+					path: "/fanProducts/" + id + "/" + this.currentClub.id
 				});
 			},
 
 			deleteFanProduct(id) {
-				FanProductDataService.delete(id)
+				const data = {
+					id: this.currentClub.id,
+				};
+				FanProductDataService.delete(id, data)
 					.then(() => {
 						this.refreshList();
 					})
@@ -228,12 +255,15 @@
 			},
 			editSport(id) {
 				this.$router.push({
-					path: "/sports/" + id
+					path: "/sports/" + id + "/" + this.currentClub.id
 				});
 			},
 
 			deleteSport(id) {
-				SportDataService.delete(id)
+				const data = {
+					id: this.currentClub.id,
+				};
+				SportDataService.delete(id, data)
 					.then(() => {
 						this.refreshList();
 					})

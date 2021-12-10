@@ -1,16 +1,6 @@
 let email = "ryangroenewold@hotmail.com";
 let password = "ryan@123A";
 
-let TEST_email = "ryangroenewoldt@hotmail.com"
-let TEST_name = "RyanT"
-let TEST_surName = "GroenewoldT"
-let TEST_password = "passwordT"
-let TEST_dateOfBirth = "01-09-1998"
-
-var idCreatedUser = "";
-
-import UserDataService from "../../../src/services/UserDataService";
-
 describe("Auth test suite", () => {
     it("Can login with given credentials", () => {
         cy.visit("/login");

@@ -4,7 +4,7 @@ let TEST_password = "ryan@123A"
 let TEST_club_name = "Club de Test"
 let TEST_city = "Papentest"
 let TEST_streetName = "TestStraat 69"
-let TEST_URL = "http://TestDeClub.nl"
+let TEST_URL = "https://TestDeClub.nl"
 
 
 describe("Club test suite", () => {
@@ -82,7 +82,7 @@ describe("Club test suite", () => {
         cy.visit("/clubs")
 
         cy.wait(200);
-        cy.get('tbody > :nth-child(2) ').each(($el,
+        cy.get('tbody > :nth-child(6) ').each(($el,
             index, $list) => {
             // grabbing all text from second column
             const txt = $el.text();
@@ -92,7 +92,7 @@ describe("Club test suite", () => {
 
                 cy.get($el);
                 // capturing the next sibling with the help of next() method
-                cy.get(':nth-child(2) > :nth-child(5) > .v-icon')
+                cy.get(':nth-child(6) > :nth-child(5) > .v-icon')
                     .eq(index).click()
                 cy.get('.headline').contains('Club ' + TEST_club_name)
                 cy.get('.v-form > p').contains('This club is created by you!')
@@ -108,7 +108,7 @@ describe("Club test suite", () => {
                     .type("Updated Streetname")
                 cy.get("[data-cy=URL-input]")
                     .clear()
-                    .type("Updatedurl.nl")
+                    .type("https://Updatedurl.nl")
                 cy.contains("button", "Update").click()
                 cy.get('.mt-3').contains('The club was updated successfully!')
 

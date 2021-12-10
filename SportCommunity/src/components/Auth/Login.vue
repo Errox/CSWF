@@ -4,10 +4,10 @@
       <h2> Login </h2>
       <form name="form" @submit.prevent="handleLogin">
         <v-form ref="form" lazy-validation>
-          <v-text-field data-cy="email-input" v-model="user.email" :rules="[(v) => !!v || 'email is required']" label="email" required>
+          <v-text-field data-cy="email-input" v-model="user.email" :rules="emailRules" label="email" required>
           </v-text-field>
 
-          <v-text-field data-cy="password-input" v-model="user.password" type="password" :rules="[(v) => !!v || 'Password is required']"
+          <v-text-field data-cy="password-input" v-model="user.password" type="password" :rules="passwordRules"
             label="Password" required></v-text-field>
 
         </v-form>
@@ -38,9 +38,18 @@
     name: "Login",
     data() {
       return {
+        valid: true,
         user: new User("", ""),
         loading: false,
-        message: "",
+        message: "",      
+        emailRules: [
+          v => !!v || 'Email is required!',
+          v => /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(v) || 'E-mail must be valid. (example: mail@address.nl)',
+        ],
+        passwordRules:[
+          v => !!v || 'Password is required',
+          v => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/.test(v) || 'Minimum eight characters, at least one upper case letter, one lower case letter, one number.'
+        ]
       };
     },
     computed: {
@@ -55,25 +64,29 @@
     },
     methods: {
       handleLogin() {
-        this.loading = true;
-        console.log("check email / password");
-        if (this.user.email && this.user.password) {
-          console.log(this.$store);
-          this.$store.dispatch("auth/login", this.user).then(
-            () => {
-              this.loading = false;
-              this.$router.push("/profile");
-            },
-            (error) => {
-              this.loading = false;
-              this.message =
-                (error.response && error.response.data) ||
-                error.message ||
-                error.toString();
-            },
-          );
-        } else {
-          this.loading = false;
+        this.$refs.form.validate()
+        console.log(this.valid);
+				if (this.valid) {
+          this.loading = true;
+          console.log("check email / password");
+          if (this.user.email && this.user.password) {
+            console.log(this.$store);
+            this.$store.dispatch("auth/login", this.user).then(
+              () => {
+                this.loading = false;
+                this.$router.push("/profile");
+              },
+              (error) => {
+                this.loading = false;
+                this.message =
+                  (error.response && error.response.data) ||
+                  error.message ||
+                  error.toString();
+              },
+            );
+          } else {
+            this.loading = false;
+          }
         }
       },
       click(url) {

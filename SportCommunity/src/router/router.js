@@ -13,7 +13,7 @@ const router = new Router({
 			component: () => import("../components/Sport/SportList.vue"),
 		},
 		{ // Detailed version of a sport which can be edited
-			path: "/sports/:id",
+			path: "/sports/:id/:clubId",
 			name: "sports-details",
 			component: () => import("../components/Sport/Sport.vue"),
 		},
@@ -64,7 +64,7 @@ const router = new Router({
 			component: () => import("../components/FanProduct/FanProductList.vue"),
 		},
 		{ // Detailed version of a FanProducts which can be edited
-			path: "/fanProducts/:id",
+			path: "/fanProducts/:id/:clubId",
 			name: "fanProducts-details",
 			component: () => import("../components/FanProduct/FanProduct.vue"),
 		},

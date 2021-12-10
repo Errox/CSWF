@@ -27,7 +27,7 @@ require("../app/routes/user.routes")(app);
 var testUser = {
     name: "test",
     surName: "user",
-    email: "testUser@test.nl",
+    email: "testuser@test.nl",
     password: "testPassword123",
     dateOfBirth: "1998-12-02T15:37:41.840+00:00"
 }

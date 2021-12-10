@@ -7,7 +7,7 @@
         <v-text-field
         data-cy="nameClub-input"
           v-model="club.name"
-          :rules="[(v) => !!v || 'name is required']"
+          :rules="nameRules"
           label="name"
           required
         ></v-text-field>
@@ -15,7 +15,7 @@
         <v-text-field
         data-cy="city-input"
           v-model="club.city"
-          :rules="[(v) => !!v || 'City is required']"
+          :rules="cityRules"
           label="city"
           required
         ></v-text-field>
@@ -23,7 +23,7 @@
         <v-text-field
         data-cy="streetname-input"
           v-model="club.streetName"
-          :rules="[(v) => !!v || 'streetName is required']"
+          :rules="streetNameRules"
           label="streetName"
           required
         ></v-text-field>
@@ -31,7 +31,7 @@
         <v-text-field
         data-cy="URL-input"
         v-model="club.URL"
-        :rules="[(v) => !!v || 'URL is required']"
+        :rules="URLRules"
         label="URL"
         required
       ></v-text-field>
@@ -68,6 +68,7 @@ export default {
 	name: "add-club",
 	data() {
 		return {
+      valid: true,
       message: "",
 			club: {
 				id: null,
@@ -77,6 +78,29 @@ export default {
 				URL: "",
 			},
 			submitted: false,
+      // Start Form Rules
+      nameRules: [
+        v => !!v || 'Name is Required!',
+        v => v.length <= 150 || 'Name must be less then 150 characters.',
+        v => v.length >= 2 || 'Name must be at least 2 characters long'
+      ],
+      cityRules: [
+        v => !!v || 'City is Required!',
+        v => v.length <= 150 || 'City must be less then 150 characters.',
+        v => v.length >= 2 || 'City must be at least 2 characters long'
+      ],
+      streetNameRules: [
+        v => !!v || 'Street Name is required!',
+        v => v.length <= 150 || 'Street Name must be less then 150 characters long.',
+        v => v.length >= 2 || 'Street Name must be at least 2 characters long',
+        v => /^(.+)\s(\S+)$/.test(v) || 'StreetName must be valid. (A streetname with number)',
+      ],
+      URLRules: [
+        v => !!v || 'URL is required',
+        v => v.length <= 150 || 'URL must be less then 150 characters long.',
+        v => v.length >= 2 || 'URL must be at least 2 characters long',
+        v => /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/.test(v) || 'URL must be valid. (example: https://deStoep.nl)' 
+      ],
 		};
 	},
 	methods: {
@@ -87,17 +111,21 @@ export default {
 				streetName: this.club.streetName,
 				URL: this.club.URL,
 			};
-
-			ClubDataService.create(data)
-				.then((response) => {
-					this.club.id = response.data.id;
-					console.log(response.data);
-					this.submitted = true;
-				})
-				.catch((e) => {
-          this.message = e.response.data;
-					console.log(e);
-				});
+      this.$refs.form.resetValidation()
+      this.$refs.form.validate()
+      if(this.valid){
+        ClubDataService.create(data)
+          .then((response) => {
+            this.club.id = response.data.id;
+            console.log(response.data);
+            this.submitted = true;
+          })
+          .catch((e) => {
+            this.message = e.response.data;
+            console.log(e);
+          });
+      }
+		
 		},
 
 		newClub() {
