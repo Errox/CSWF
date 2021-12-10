@@ -18,8 +18,9 @@ class SportDataService {
 		return http.put(`/sports/${id}`, data, {headers: authHeader()});
 	}
 
-	delete(id) {
-		return http.delete(`/sports/${id}`, {headers: authHeader()});
+	delete(id, data) {
+		console.log(authHeader())
+		return http.delete(`/sports/${id}`, {data: data, headers: authHeader()});
 	}
 
 	findByTitle(title) {

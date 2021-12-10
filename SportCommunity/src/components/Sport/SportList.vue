@@ -24,10 +24,6 @@
           :hide-default-footer="true"
           class="table"
         >
-          <template v-slot:[`item.actions`]="{ item }">
-            <v-icon small class="mr-2" @click="editSport(item.id)">mdi-pencil</v-icon>
-            <v-icon small @click="deleteSport(item.id)">mdi-delete</v-icon>
-          </template>
         </v-data-table>
       </v-card>
     </v-col>
@@ -47,7 +43,6 @@ export default {
 				{text: "Beschrijving", value: "description", sortable: false},
 				{text: "Registratie", value: "openForRegistration", sortable: false},
 				{text: "Link", value: "wikiLink", sortable: false},
-				{text: "Acties", value: "actions", sortable: false},
 			],
 		};
 	},

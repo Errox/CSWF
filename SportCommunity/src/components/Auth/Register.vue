@@ -1,96 +1,144 @@
 <template>
     <div class="col-md-12">
         <div class="card card-container">
-            <img id="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" class="profile-img-card" />
+            <h2>Registreer je account!</h2>
             <form name="form" @submit.prevent="handleRegister">
-                <div v-if="!successful">
-                    <div class="form-group">
-                        <label for="name">name</label>
-                        <input v-model="user.name" v-validate="'required|min:3|max:20'" type="text" class="form-control"
-                            name="name" />
-                        <div v-if="submitted && errors.has('name')" class="alert-danger">{{errors.first('name')}}</div>
+                <v-form ref="form" lazy-validation>
+                    <v-text-field data-cy="name-input" v-model="user.name" :rules="nameRules" label="Name" required>
+                    </v-text-field>
+
+                    <v-text-field data-cy="surname-input" v-model="user.surName" :rules="surNameRules"
+                        label="Achternaam" required></v-text-field>
+
+                    <v-text-field data-cy="email-input" v-model="user.email" :rules="emailRules" label="Email"
+                        required></v-text-field>
+
+                    <v-text-field data-cy="password-input" v-model="user.password" type="password"
+                        :rules="passwordRules" label="Password" required></v-text-field>
+                    <div>
+                        <v-menu ref="menu" v-model="menu" :close-on-content-click="false" transition="scale-transition"
+                            offset-y min-width="auto">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-text-field v-model="user.date" label="Birthday date" v-bind="attrs"
+                                    v-on="on"></v-text-field>
+                            </template>
+                            <v-date-picker data-cy="dateOfBirth-input" v-model="user.date" :active-picker.sync="activePicker"
+                                :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                                min="1950-01-01" ></v-date-picker>
+                        </v-menu>
                     </div>
-                    <div class="form-group">
-                        <label for="surName">surName</label>
-                        <input v-model="user.surName" v-validate="'required|min:3|max:20'" type="text" class="form-control"
-                            name="surName" />
-                        <div v-if="submitted && errors.has('surName')" class="alert-danger">{{errors.first('name')}}</div>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input v-model="user.email" v-validate="'required|min:3|max:20'" type="text"
-                            class="form-control" name="email" />
-                        <div v-if="submitted && errors.has('email')" class="alert-danger">{{errors.first('email')}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input v-model="user.password" v-validate="'required|min:6|max:40'" type="password"
-                            class="form-control" name="password" />
-                        <div v-if="submitted && errors.has('password')" class="alert-danger">
-                            {{errors.first('password')}}</div>
-                    </div>
-                    <div class="form-group">
-                        <label for="dateOfBirth">dateOfBirth</label>
-                        <input v-model="user.dateOfBirth" v-validate="'required|max:50'" type="date"
-                            class="form-control" name="dateOfBirth" />
-                        <div v-if="submitted && errors.has('dateOfBirth')" class="alert-danger">{{errors.first('dateOfBirth')}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary btn-block">Sign Up</button>
-                    </div>
+                </v-form>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block">
+                        <span>Register</span>
+                    </button>
+                </div>
+                <br>
+                <div class="form-group">
+                    <div data-cy="notification-register" v-if="message" class="alert alert-primary" role="alert">{{message}}</div>
                 </div>
             </form>
-
-            <div v-if="message" class="alert" :class="successful ? 'alert-success' : 'alert-danger'">{{message}}</div>
+            <br>
+            <div class="form-group">
+                <button @click="click('login')" class="btn btn-primary btn-block">
+                    <span>Login</span>
+                </button>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import User from "../../models/user";
+    import User from "../../models/user";
 
-export default {
-	name: "Register",
-	data() {
-		return {
-			user: new User("", "", "", "", ""),
-			submitted: false,
-			successful: false,
-			message: "",
-		};
-	},
-	computed: {
-		loggedIn() {
-			return this.$store.state.auth.status.loggedIn;
-		},
-	},
-	mounted() {
-		if (this.loggedIn) {
-			this.$router.push("/profile");
-		}
-	},
-	methods: {
-		handleRegister() {
-			this.message = "";
-			this.submitted = true;
-			this.$store.dispatch("auth/register", this.user).then(
-				(data) => {
-					this.message = data.message;
-					this.successful = true;
-				},
-				(error) => {
-					this.message =
-                                (error.response && error.response.data) ||
-                                error.message ||
-                                error.toString();
-					this.successful = false;
-				},
-			);
-		},
-	},
-};
+    export default {
+        name: "Register",
+        data() {
+            return {
+                valid: true,
+                activePicker: null,
+                date: null,
+                menu: false,
+                user: new User("", "", "", "", ""),
+                submitted: false,
+                successful: false,
+                message: "",      
+                nameRules: [
+                    v => !!v || 'Name is Required!',
+                    v => v.length <= 150 || 'Name must be less then 150 characters.',
+                    v => v.length >= 2 || 'Name must be at least 2 characters long'
+                ],      
+                surNameRules: [
+                    v => !!v || 'Sur Name is Required!',
+                    v => v.length <= 150 || 'Sur Name must be less then 150 characters.',
+                    v => v.length >= 2 || 'Sur Name must be at least 2 characters long'
+                ],
+                emailRules: [
+                    v => !!v || 'Email is required!',
+                    v => /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(v) || 'E-mail must be valid. (example: mail@address.nl)',
+                ],
+                passwordRules:[
+                    v => !!v || 'Password is required',
+                    v => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/.test(v) || 'Minimum eight characters, at least one upper case letter, one lower case letter, one number.'
+                ]
+            };
+        },
+        watch: {
+            menu(val) {
+                val && setTimeout(() => (this.activePicker = 'YEAR'))
+            },
+        },
+        computed: {
+            loggedIn() {
+                return this.$store.state.auth.status.loggedIn;
+            },
+        },
+        mounted() {
+            if (this.loggedIn) {
+                this.$router.push("/profile");
+            }
+        },
+        methods: {
+            handleRegister() {
+                this.$refs.form.validate()
+                console.log(this.valid)
+                if (this.valid) {
+                    this.user.dateOfBirth = this.user.date;
+                    if (this.user.name == '' || this.user.email == '' || this.user.password == '' || this.user
+                        .dateOfBirth == '' || this.user.surName == '') {
+                        this.message = "Please fill in all the fields."
+                    } else {
+                        this.message = "";
+                        this.submitted = true;
+                        this.$store.dispatch("auth/register", this.user).then(
+                            (data) => {
+                                this.message = data.message;
+                                this.successful = true;
+                            },
+                            (error) => {
+                                console.log(error.response);
+                                this.message =
+                                    (error.response && error.response.data) ||
+                                    error.message ||
+                                    error.toString();
+                                this.successful = false;
+                            },
+                        );
+                    }
+                }
+            },
+            click(url) {
+                const tmp = this.$route.fullPath.replace(/[^a-zA-Z0-9]/g, "");
+
+                console.log(tmp + " : " + url);
+                if (url != tmp) {
+                    this.$router.push({
+                        name: url
+                    });
+                }
+            },
+        },
+    };
 </script>
 
 <style scoped>

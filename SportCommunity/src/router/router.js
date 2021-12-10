@@ -13,12 +13,12 @@ const router = new Router({
 			component: () => import("../components/Sport/SportList.vue"),
 		},
 		{ // Detailed version of a sport which can be edited
-			path: "/sports/:id",
+			path: "/sports/:id/:clubId",
 			name: "sports-details",
 			component: () => import("../components/Sport/Sport.vue"),
 		},
 		{ // Add new sport TODO: fix going towards add sport and not detailed
-			path: "/sports/add",
+			path: "/sports/add/:clubId",
 			name: "sports-add",
 			component: () => import("../components/Sport/AddSport.vue"),
 		},
@@ -64,12 +64,12 @@ const router = new Router({
 			component: () => import("../components/FanProduct/FanProductList.vue"),
 		},
 		{ // Detailed version of a FanProducts which can be edited
-			path: "/fanProducts/:id",
+			path: "/fanProducts/:id/:clubId",
 			name: "fanProducts-details",
 			component: () => import("../components/FanProduct/FanProduct.vue"),
 		},
-		{ // Add new FanProducts TODO: fix going towards add FanProducts and not detailed
-			path: "/fanProducts/add",
+		{ // Add new fanproduct with the club Id (since it needs a clubID to be linked at)
+			path: "/fanProducts/add/:clubId",
 			name: "fanProducts-add",
 			component: () => import("../components/FanProduct/AddFanProduct.vue"),
 		},
@@ -94,8 +94,8 @@ const router = new Router({
 		// Misc
 		{ // About page on home URL. Must be changed in future
 			path: "/",
-			name: "About",
-			component: () => import("../components/About.vue"),
+			name: "FrontPage",
+			component: () => import("../components/FrontPage.vue"),
 		},
 		{ // About page
 			path: "/about",
@@ -124,7 +124,6 @@ const router = new Router({
 
 
 router.beforeEach((to, from, next) => {
-	console.log("Yeet");
 	const publicPages = ["/login", "/register", "/about", "/"];
 	const authRequired = !publicPages.includes(to.path);
 	const loggedIn = localStorage.getItem("user");

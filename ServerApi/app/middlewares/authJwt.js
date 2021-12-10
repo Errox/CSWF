@@ -4,7 +4,6 @@ const db = require("../models");
 
 verifyToken = (req, res, next) => {
   var tempToken = req.headers.authorization;
-
   if (!tempToken) {
     return res.status(403).send({ message: "No token provided!" });
   }

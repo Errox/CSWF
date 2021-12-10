@@ -24,10 +24,6 @@
           :hide-default-footer="true"
           class="table"
         >
-          <template v-slot:[`item.actions`]="{ item }">
-            <v-icon small class="mr-2" @click="editFanProduct(item.id)">mdi-pencil</v-icon>
-            <v-icon small @click="deleteFanProduct(item.id)">mdi-delete</v-icon>
-          </template>
         </v-data-table>
       </v-card>
     </v-col>
@@ -47,7 +43,6 @@ export default {
 				{text: "Beschrijving", value: "description", sortable: false},
 				{text: "buyLink", value: "buyLink", sortable: false},
 				{text: "price", value: "price", sortable: false},
-				{text: "Acties", value: "actions", sortable: false},
 			],
 		};
 	},
