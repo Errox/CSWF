@@ -5,7 +5,7 @@
         <div class="col-lg-8">
           <h2>Sport Community</h2>
           <p class="lead">
-            Sport Community is een platform om gemakkelijk clubs en sporten op
+            Welkom op de front page van Sport Community! Sport Community is een platform om gemakkelijk clubs en sporten op
             te zoeken! Sport Community is gemaakt om iedereen op te hoogte te brengen wat er mogelijk is en waar.
             Hierbij kan je gemakkelijk inzicht krijgen welke clubs er zijn en waar je contact mee kan openemen als je
             geinttereseerd ben in de sport. Op dit platform kan je
@@ -25,9 +25,24 @@
               aanbieden! Op deze manier kan je op de hoogte zijn welke sporten er aangeboden zijn en kan je hierbij
               gemakkelijk naar hun persoonlijke website om gemakkelijk in contact te komen!</li>
           </ul>
-          <p> Momenteel hebben we xx sporten, xx clubs en xx fan producten en xx gebruikers </p>
+          <p> Voor meer informatie, ga naar onze about page! <button type="button" class="btn btn-light" @click="click('AboutUrl')"> About </button> </p>
         </div>
       </div>
     </div>
   </v-container>
 </template>
+<script>
+  export default {
+    methods: {
+      click(url) {
+        const tmp = this.$route.fullPath.replace(/[^a-zA-Z0-9]/g, "");
+        if (url != tmp) {
+          this.$router.push({
+            name: url
+          });
+        }
+      },
+    },
+
+  };
+</script>
