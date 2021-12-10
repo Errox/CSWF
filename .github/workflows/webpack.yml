@@ -27,7 +27,7 @@ jobs:
         cd SportCommunity
         yarn --version
         yarn install --frozen-lockfile
-        yarn test:e2e
+        yarn test:e2e --headless
         
         
     - name: Deploy to Heroku
