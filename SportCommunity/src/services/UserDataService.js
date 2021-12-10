@@ -18,9 +18,9 @@ class UserDataService {
 		return http.put(`/users/${id}`, data, {headers: authHeader()});
 	}
 
-	// delete(id) {
-	//   return http.delete(`/users/${id}`);
-	// }
+	delete(id) {
+	  return http.delete(`/users/${id}`);
+	}
 
 	findByTitle(title) {
 		return http.get(`/users?title=${title}`, {headers: authHeader()});

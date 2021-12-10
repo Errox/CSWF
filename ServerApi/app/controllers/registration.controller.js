@@ -1,5 +1,6 @@
 const db = require("../models");
 const Registration = db.registrations;
+const mongoose = require("mongoose")
 // const Club = db.clubs;
 // const Sport = db.sports
 // const User = db.users;
@@ -53,7 +54,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Registration.findById(id)
+  Registration.findOne({_id : mongoose.Types.ObjectId(id)})
     .then(data => {
       if (!data)
         res.status(404).send({ message: "Not found Registration with id " + id });

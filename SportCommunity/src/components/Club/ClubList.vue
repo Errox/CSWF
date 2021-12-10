@@ -25,8 +25,7 @@
           class="table"
         >
           <template v-slot:[`item.actions`]="{ item }">
-            <v-icon small class="mr-2" @click="editClub(item.id)">mdi-pencil</v-icon>
-            <v-icon small @click="deleteClub(item.id)">mdi-delete</v-icon>
+            <v-icon small class="mr-2" @click="editClub(item.id)">mdi-magnify</v-icon>
           </template>
         </v-data-table>
       </v-card>
@@ -67,17 +66,6 @@ export default {
 			this.retrieveClubs();
 		},
 
-		removeAllClubs() {
-			ClubDataService.deleteAll()
-				.then((response) => {
-					console.log(response.data);
-					this.refreshList();
-				})
-				.catch((e) => {
-					console.log(e);
-				});
-		},
-
 		searchTitle() {
 			ClubDataService.findByTitle(this.title)
 				.then((response) => {
@@ -93,16 +81,6 @@ export default {
 			this.$router.push({path: "/clubs/"+id});
 		},
 
-		deleteClub(id) {
-			ClubDataService.delete(id)
-				.then(() => {
-					this.refreshList();
-				})
-				.catch((e) => {
-					console.log(e);
-				});
-		},
-
 		getDisplayClub(club) {
 			return {
 				id: club.id,
@@ -113,6 +91,7 @@ export default {
 			};
 		},
 		click(url) {
+			console.log(url);
 			this.$router.push({name: url});
 		},
 	},
