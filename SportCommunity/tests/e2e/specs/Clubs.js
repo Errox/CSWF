@@ -7,7 +7,7 @@ let TEST_streetName = "TestStraat 69"
 let TEST_URL = "http://TestDeClub.nl"
 
 
-describe.only("Club test suite", () => {
+describe("Club test suite", () => {
     it("Can create new club", () => {
         cy.visit("/login");
         cy.get("[data-cy=email-input]")
