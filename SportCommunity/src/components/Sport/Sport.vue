@@ -96,6 +96,7 @@ export default {
 					console.log(response.data);
 				})
 				.catch((e) => {
+					this.message = e.response.message;
 					console.log(e);
 				});
 		},
@@ -107,6 +108,7 @@ export default {
 					this.message = "The sport was updated successfully!";
 				})
 				.catch((e) => {
+					this.message = e.response.message;
 					console.log(e);
 				});
 		},
@@ -118,6 +120,7 @@ export default {
 					this.$router.push({name: "sports"});
 				})
 				.catch((e) => {
+					this.message = e.response.message;
 					console.log(e);
 				});
 		},
