@@ -1,16 +1,25 @@
-module.exports = mongoose => {
-  var schema = mongoose.Schema(
-    {
-      productTitle: String,
-      description: String,
-      buyLink: String,
-      price: Number
-    },
-    { timestamps: true }
-  );
+const mongoose = require("mongoose");
 
-  schema.method("toJSON", function() {
-    const { __v, _id, ...object } = this.toObject();
+module.exports = mongoose => {
+  var schema = mongoose.Schema({
+    productTitle: String,
+    description: String,
+    buyLink: String,
+    price: Number,
+    clubs: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "club"
+    }]
+  }, {
+    timestamps: true
+  });
+
+  schema.method("toJSON", function () {
+    const {
+      __v,
+      _id,
+      ...object
+    } = this.toObject();
     object.id = _id;
     return object;
   });
