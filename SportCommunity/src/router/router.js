@@ -17,8 +17,13 @@ const router = new Router({
 			name: "sports-details",
 			component: () => import("../components/Sport/Sport.vue"),
 		},
-		{ // Add new sport TODO: fix going towards add sport and not detailed
+		{ 
 			path: "/sports/add/:clubId",
+			name: "sports-add-to-club",
+			component: () => import("../components/Sport/AddSportToClub.vue"),
+		},
+		{ 
+			path: "/sports/add",
 			name: "sports-add",
 			component: () => import("../components/Sport/AddSport.vue"),
 		},

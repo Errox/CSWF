@@ -26,6 +26,15 @@ class ClubDataService {
 	findByTitle(title) {
 		return http.get(`/clubs?title=${title}`, {headers: authHeader()});
 	}
+
+	addSportToClub(data) {
+		return http.post(`/clubs/sport/add/${data.clubId}`, data, {headers: authHeader()})
+	}
+
+	removeSportToClub(data) {
+		console.log(authHeader());
+		return http.delete(`/clubs/sport/remove/${data.clubId}`, {data: data, headers: authHeader()})
+	}
 }
 
 export default new ClubDataService();

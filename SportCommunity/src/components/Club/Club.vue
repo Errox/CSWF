@@ -44,42 +44,64 @@
 			<p class="mt-3">{{ message }}</p>
 		</div>
 
-
-		<div class="row">
-			<div v-if="fanProducts" class="col-md-6">
-				<h1> Fan Producten </h1>
-				<v-btn small @click="click('fanProducts-add')">
-					Nieuwe fanProduct toevoegen
-				</v-btn>
-				<v-data-table :headers="headersFanProduct" :items="fanProducts" disable-pagination
-					:hide-default-footer="true" class="table">
-					<template v-slot:[`item.actions`]="{ item }">
-						<v-icon small class="mr-2" @click="editFanProduct(item._id.toString())">mdi-pencil</v-icon>
-						<v-icon small @click="deleteFanProduct(item._id.toString())">mdi-delete</v-icon>
-					</template>
-				</v-data-table>
-			</div>
-			<div v-else>
-				There are no fan products
-			</div>
-			<div v-if="sports" class="col-md-6">
-				<h1> Sporten </h1>
-				<v-btn small @click="click('sports-add')">
-					Nieuwe sport toevoegen
-				</v-btn>
-				<v-data-table :headers="headersSport" :items="sports" disable-pagination :hide-default-footer="true"
-					class="table">
-					<template v-slot:[`item.actions`]="{ item }">
-						<v-icon small class="mr-2" @click="editSport(item._id.toString())">mdi-pencil</v-icon>
-						<v-icon small @click="deleteSport(item._id.toString())">mdi-delete</v-icon>
-					</template>
-				</v-data-table>
-			</div>
-			<div v-else>
-				There are no sports
+		<div v-if="userIsOwner">
+			<div class="row">
+				<div v-if="fanProducts" class="col-md-6">
+					<h1> Fan Producten </h1>
+					<v-btn small @click="click('fanProducts-add')">
+						Nieuwe fanProduct toevoegen
+					</v-btn>
+					<v-data-table :headers="headersFanProduct" :items="fanProducts" disable-pagination
+						:hide-default-footer="true" class="table">
+						<template v-slot:[`item.actions`]="{ item }">
+							<v-icon small class="mr-2" @click="editFanProduct(item._id.toString())">mdi-pencil</v-icon>
+							<v-icon small @click="deleteFanProduct(item._id.toString())">mdi-delete</v-icon>
+						</template>
+					</v-data-table>
+				</div>
+				<div v-else>
+					There are no fan products
+				</div>
+				<div v-if="sports" class="col-md-6">
+					<h1> Sporten </h1>
+					<v-btn small @click="click('sports-add-to-club')">
+						Nieuwe sport toevoegen
+					</v-btn>
+					<v-data-table :headers="headersSport" :items="sports" disable-pagination :hide-default-footer="true"
+						class="table">
+						<template v-slot:[`item.actions`]="{ item }">
+							<v-icon small class="mr-2" @click="editSport(item._id.toString())">mdi-pencil</v-icon>
+							<v-icon small @click="deleteSport(item._id.toString())">mdi-delete</v-icon>
+						</template>
+					</v-data-table>
+				</div>
+				<div v-else>
+					There are no sports
+				</div>
 			</div>
 		</div>
-
+		<div v-else>
+			<div class="row">
+				<div v-if="fanProducts" class="col-md-6">
+					<h1> Fan Producten </h1>
+					<v-data-table :headers="headersFanProductUnauthorized" :items="fanProducts" disable-pagination
+						:hide-default-footer="true" class="table">
+					</v-data-table>
+				</div>
+				<div v-else>
+					There are no fan products
+				</div>
+				<div v-if="sports" class="col-md-6">
+					<h1> Sporten </h1>
+					<v-data-table :headers="headersSportUnauthorized" :items="sports" disable-pagination
+						:hide-default-footer="true" class="table">
+					</v-data-table>
+				</div>
+				<div v-else>
+					There are no sports
+				</div>
+			</div>
+		</div>
 	</div>
 	<div v-else>
 		<p>Please click on a Club...</p>
@@ -154,6 +176,45 @@
 					{
 						text: "Acties",
 						value: "actions",
+						sortable: false
+					},
+				],
+				headersFanProductUnauthorized: [{
+						text: "productTitle",
+						align: "start",
+						sortable: false,
+						value: "productTitle"
+					},
+					{
+						text: "Beschrijving",
+						value: "description",
+						sortable: false
+					},
+					{
+						text: "buyLink",
+						value: "buyLink",
+						sortable: false
+					},
+				],
+				headersSportUnauthorized: [{
+						text: "Titel",
+						align: "start",
+						sortable: false,
+						value: "title"
+					},
+					{
+						text: "Beschrijving",
+						value: "description",
+						sortable: false
+					},
+					{
+						text: "Registratie",
+						value: "openForRegistration",
+						sortable: false
+					},
+					{
+						text: "Link",
+						value: "wikiLink",
 						sortable: false
 					},
 				],
@@ -247,6 +308,7 @@
 				};
 				FanProductDataService.delete(id, data)
 					.then(() => {
+						this.message = "Succesfully removed the Fan Product"
 						this.refreshList();
 					})
 					.catch((e) => {
@@ -260,22 +322,27 @@
 			},
 
 			deleteSport(id) {
-				const data = {
-					id: this.currentClub.id,
-				};
-				SportDataService.delete(id, data)
-					.then(() => {
+				console.log(this.currentClub.id);
+				ClubDataService.removeSportToClub({
+						clubId: this.currentClub.id,
+						sportId: id
+					})
+					.then((response) => {
+						this.message = "Succesfully removed the sport"
 						this.refreshList();
 					})
 					.catch((e) => {
-						console.log(e);
+						this.message = e.response;
 					});
 			},
+			refreshList() {
+				this.getClub(this.$route.params.id);
+			}
 		},
 
 		mounted() {
 			this.message = "";
-			this.getClub(this.$route.params.id);
+			this.refreshList();
 		},
 	};
 </script>

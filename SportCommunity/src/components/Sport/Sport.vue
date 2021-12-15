@@ -116,7 +116,7 @@
 					openForRegistration: this.currentSport.status,
 					clubId: this.$route.params.clubId
 				};
-				
+
 				this.$refs.form.validate()
 
 				if (this.valid) {
