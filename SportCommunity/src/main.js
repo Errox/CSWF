@@ -3,10 +3,13 @@ import Vuex from "vuex";
 import App from "./App.vue";
 import router from "./router/router";
 import vuetify from "./plugins/vuetify";
-import {auth} from "./store/auth.module";
+import {
+	auth
+} from "./store/auth.module";
 /* eslint-disable */
 
 Vue.config.productionTip = false;
+Vue.config.silent = true;
 
 Vue.use(Vuex);
 

@@ -20,5 +20,9 @@ module.exports = app => {
   // Delete a Club with id
   router.delete("/:id", [authJwt.verifyToken], clubs.delete);
 
+  router.post("/sport/add/:clubId", [authJwt.verifyToken], clubs.addSport);
+
+  router.delete("/sport/remove/:clubId", [authJwt.verifyToken], clubs.removeSport);
+
   app.use("/api/clubs", router);
 };

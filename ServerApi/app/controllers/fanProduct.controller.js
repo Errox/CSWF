@@ -56,7 +56,7 @@ exports.create = (req, res) => {
                 db.clubs.findByIdAndUpdate(
                     req.body.clubId, {
                       $push: {
-                        fanProducts: fanProduct
+                        fanProducts: fanProduct.id
                       }
                     }, {
                       new: true,

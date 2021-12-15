@@ -15,86 +15,28 @@ exports.create = (req, res) => {
     return;
   }
 
-  var tempToken = req.headers.authorization;
-  const payload = jwt.verify(tempToken.split(" ")[1], config.secret, {
-    ignoreExpiration: true
+  // Create a Sport
+  const sport = new Sport({
+    title: req.body.title,
+    description: req.body.description,
+    wikiLink: req.body.wikiLink,
+    openForRegistration: req.body.openForRegistration ? req.body.openForRegistration : false,
   });
 
-
-  if (!req.body.clubId) {
-    res.status(400).send({
-      message: "Missing clubId!"
-    });
-    return;
-  } else {
-    Club.findOne({
-        _id: mongoose.Types.ObjectId(req.body.clubId)
-      })
-      .then(data => {
-        if (!data)
-          res.status(404).send({
-            message: "Not found Club with id " + id
-          });
-        else {
-          // If the user has the right, then continue.
-          if (data.createdById == payload.id) {
-            // Create a Sport
-            const sport = new Sport({
-              title: req.body.title,
-              description: req.body.description,
-              wikiLink: req.body.wikiLink,
-              openForRegistration: req.body.openForRegistration ? req.body.openForRegistration : false,
-            });
-
-            // Save Sport in the database
-            sport
-              .save(sport)
-              .then(data => {
-                var sportResponse = data;
-                // Get club
-                db.clubs.findByIdAndUpdate(
-                    // update club 
-                    req.body.clubId, {
-                      $push: {
-                        sports: sport
-                      }
-                    }, {
-                      new: true,
-                      useFindAndModify: false
-                    }
-                  ).then(data => {
-                    res.send(sportResponse);
-                  })
-                  .catch(err => {
-                    res.status(500).send({
-                      message: err.message || "Some Error occured while updating the club with the new fanProduct"
-                    })
-                  });
-              })
-              .catch(err => {
-                res.status(500).send({
-                  message: err.message || "Some error occurred while creating the Sport."
-                });
-              });
-          } else {
-            res.status(403).send({
-              message: "You're not allowed to create a sport for this specified club."
-            })
-          }
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        res
-          .status(500)
-          .send({
-            message: "Error retrieving Club with id=" + req.body.clubId
-          });
+  // Save Sport in the database
+  sport
+    .save(sport)
+    .then(data => {
+      var sportResponse = data;
+      res.send(sportResponse);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while creating the Sport."
       });
-  }
-};
+    });
 
-
+}
 
 // Retrieve all Sports from the database.
 exports.findAll = (req, res) => {
@@ -221,8 +163,8 @@ exports.delete = (req, res) => {
     const payload = jwt.verify(tempToken.split(" ")[1], config.secret, {
       ignoreExpiration: true
     });
-  
-  
+
+
     Club.findOne({
         _id: mongoose.Types.ObjectId(req.body.id)
       })

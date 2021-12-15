@@ -54,6 +54,8 @@ exports.findAll = (req, res) => {
   } : {};
 
   Club.find(condition)
+    .populate("sports")
+    .populate("fanProducts")
     .then(data => {
       res.send(data);
     })
@@ -69,6 +71,8 @@ exports.findOne = (req, res) => {
   const id = req.params.id;
 
   Club.findOne({_id : mongoose.Types.ObjectId(id)})
+  .populate("sports")
+  .populate("fanProducts")
     .then(data => {
       if (!data)
         res.status(404).send({
@@ -199,3 +203,51 @@ exports.delete = (req, res) => {
 
 
 };
+
+// Add sport to the club 
+
+exports.addSport = (req, res) => {
+  db.clubs.findByIdAndUpdate(
+    // update club 
+    req.params.clubId, {
+      $push: {
+        sports: req.body.sportId
+      }
+    }, {
+      new: true,
+      useFindAndModify: false
+    }
+  ).then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "Some Error occured while add the club with the new sport"
+    })
+  });
+}
+
+//Remove sport from clubid
+exports.removeSport = (req, res) =>{
+  db.clubs.findByIdAndUpdate(
+      // update club 
+      req.params.clubId, {
+        $pull: {
+          sports: req.body.sportId
+        }
+      }, {
+        new: true,
+        useFindAndModify: false,
+        safe: true, 
+        multi:true
+      }
+    ).then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Some Error occured while removing the club with the new sport"
+      })
+  });
+
+}
